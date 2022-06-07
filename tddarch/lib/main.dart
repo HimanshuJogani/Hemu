@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tddarch/feature/presentation/pages/home.dart';
+import 'package:tddarch/feature/presentation/widgets/trivia_control.dart';
 import 'package:tddarch/injection_container.dart';
 
 import 'feature/presentation/cubit/numbertrivia_cubit.dart';
 import 'injection_container.dart' as di;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await di.init();
+  await di.init();  
   runApp(const MyApp());
 }
 
@@ -23,9 +24,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: BlocProvider(
+        create: (context) => sl<NumberTriviaCubit>(),
+        child: HomePage(),
+      ),
     );
   }
 }
-
-

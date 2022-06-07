@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:tddarch/error/failure.dart';
 import 'package:tddarch/feature/data/model/number_trivia_model.dart';
 
@@ -10,7 +10,7 @@ Future<NumberTriviaModel> getConcreteNumberTrivia(int number);
 
 class NumberTriviaRemoteDataSourcesImple implements NumberTriviaRemoteDataSources{
 
-  final client;
+  final http.Client client;
   NumberTriviaRemoteDataSourcesImple({required this.client});
 
   @override
@@ -28,7 +28,7 @@ class NumberTriviaRemoteDataSourcesImple implements NumberTriviaRemoteDataSource
   }
 
   Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {
-  final response = await client.get( url,
+  final response = await client.get( Uri.parse(url),
     headers: {
       'Content-Type': 'application/json',
     },);

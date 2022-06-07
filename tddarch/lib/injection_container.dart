@@ -10,6 +10,7 @@ import 'package:tddarch/feature/domain/repository/number_trivia_repository.dart'
 import 'package:tddarch/feature/domain/usecase/get_random_number_trivia.dart';
 import 'package:tddarch/feature/presentation/cubit/numbertrivia_cubit.dart';
 import 'package:tddarch/platform/network_info.dart';
+import 'package:http/http.dart' as http;
 
 import 'feature/domain/usecase/get_conceret_number_trivia.dart';
 
@@ -37,6 +38,8 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => DataConnectionChecker());
+
+  sl.registerLazySingleton(() => http.Client());
 
 
 }
