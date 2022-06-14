@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tddarch/feature/domain/usecase/get_conceret_number_trivia.dart';
 import 'package:tddarch/feature/domain/usecase/get_random_number_trivia.dart';
+
 import 'package:tddarch/feature/presentation/cubit/numbertrivia_state.dart';
 
 import '../../../error/failure.dart';
@@ -20,7 +21,6 @@ class NumberTriviaCubit extends Cubit<NumberTriviaState> {
   getNumberTriviaConcerete(String number) async{
     int num = int.parse(number);
     debugPrint('getNumberTriviaConcerete');
-  
    // a.number = number;
     final data = await getConcreteNumberTrivia.call(Params(num));
     data.fold((l) => emit(NumberTriviaConcerteFailure()), (r) => emit(NumberTriviaConcerte(r)));

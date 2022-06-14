@@ -12,6 +12,7 @@ class NumberTriviaRandomFailure extends NumberTriviaState {}
 class NumberTriviaConcerte extends NumberTriviaState {
   final NumberTrivia numberTrivia;
   NumberTriviaConcerte(this.numberTrivia);
+
 }
 
 class NumberTriviaConcerteFailure extends NumberTriviaState {}

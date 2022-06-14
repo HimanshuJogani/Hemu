@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:liveprojectui/profile_cubit.dart';
-import 'package:liveprojectui/profile_state.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_cubit.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_state.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

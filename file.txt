@@ -1,1 +1,7 @@
-Hello radixweb 
+{
+    "firstname": "Asish1",
+    "lastname": "sfssd",
+    "email": "soijfds@gmail.com",
+    "password": 16546,
+    "date": "23/57/2002"
+}
