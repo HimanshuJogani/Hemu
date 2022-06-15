@@ -7,8 +7,6 @@ import 'package:liveprojectui/features/presentation/cubit/profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
-  final ImagePicker _picker = ImagePicker();
-
   getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -16,7 +14,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      emit(ImageSelectedState(path: pickedFile.path));
+      emit(ImageSelectedState(path: File(pickedFile.path)));
     } else {
       emit(ErrorState(msg: 'msg'));
       print('getFromGallery Error');
@@ -30,7 +28,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      emit(ImageSelectedState(path: pickedFile.path));
+      // emit(ImageSelectedState(path: File(pickedFile.path)));
     } else {
       print('getFromGallery Error');
     }
