@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/switch_cubit/switch_cubit.dart';
+import '../cubit/switch_cubit/switch_state.dart';
 
 class FromField extends StatelessWidget {
   FromField({
@@ -12,20 +16,23 @@ class FromField extends StatelessWidget {
   final VoidCallback onTap;
   final String data;
 
+  TextEditingController mydata = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    mydata.text = data;
     return TextFormField(
       readOnly: true,
       decoration: InputDecoration(
-        suffixIcon: Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: Colors.grey,
-        ),
-        border: UnderlineInputBorder(),
-        labelText: labelName,
-      ),
+          suffixIcon: Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: Colors.grey,
+          ),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black38)),
+          labelText: labelName,
+          labelStyle: TextStyle(color: Colors.black54)),
       onTap: onTap,
-      initialValue: data,
+      controller: mydata,
     );
   }
 }
@@ -47,15 +54,15 @@ class SwitchField extends StatelessWidget {
           text,
           style: TextStyle(fontSize: 20),
         ),
-        Switch(
-          onChanged: (val) {
-            //   BlocProvider.of<LoginBloc>(context).add(backgroundchanged(0xff9897));
+        BlocBuilder<SwitchCubit, SwitchState>(
+          builder: (context, state) {
+            return Switch(
+              onChanged: (val) {
+                BlocProvider.of<SwitchCubit>(context).toggleSwitch(val);
+              },
+              value: (state is SwitchTrue) ? true : false,
+            );
           },
-          value: true,
-          activeColor: Colors.blue,
-          activeTrackColor: Colors.black,
-          inactiveThumbColor: Colors.redAccent,
-          inactiveTrackColor: Colors.orange,
         )
       ],
     );

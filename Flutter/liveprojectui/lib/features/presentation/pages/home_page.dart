@@ -17,7 +17,7 @@ class MyHomePage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: ListView(children: const [
+      body: ListView(children: [
         Expanded(flex: 3, child: Header()),
         Expanded(flex: 7, child: ProfileMenu()),
         Footer()

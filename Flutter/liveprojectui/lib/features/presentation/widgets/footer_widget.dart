@@ -7,8 +7,10 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Container(
-      height: 150,
+      height: height * 0.18,
       width: double.infinity,
       color: Colors.blue,
       child: Column(
@@ -16,8 +18,8 @@ class Footer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 50,
-            width: 300,
+            height: height * 0.06,
+            width: width * 0.77,
             child: ElevatedButton(
               onPressed: () {},
               child: Text('Get Help a Problem '),
@@ -26,26 +28,6 @@ class Footer extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 20)),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 50,
-            width: 300,
-            child: ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.share),
-                    SizedBox(width: 5),
-                    Text('Share 75 hard '),
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20))),
-          )
         ],
       ),
     );

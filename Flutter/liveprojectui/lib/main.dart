@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:liveprojectui/features/presentation/cubit/profile_cubit.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'features/presentation/pages/home_page.dart';
 
 Future<void> main() async {

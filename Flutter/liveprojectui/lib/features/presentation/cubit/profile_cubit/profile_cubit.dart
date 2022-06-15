@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:liveprojectui/features/presentation/cubit/profile_state.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_cubit/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
@@ -21,6 +22,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  getTime(TimeOfDay time) {
+    var userTime =
+        "${time.hour}:${time.minute} ${time.period.name.toUpperCase()}";
+    emit(TimeChangeState(time: userTime));
+  }
+
   getFromCamera() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
@@ -28,7 +35,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      // emit(ImageSelectedState(path: File(pickedFile.path)));
+      emit(ImageSelectedState(path: File(pickedFile.path)));
     } else {
       print('getFromGallery Error');
     }

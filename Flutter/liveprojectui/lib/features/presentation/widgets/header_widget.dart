@@ -3,14 +3,42 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_state.dart';
+import '../cubit/profile_cubit/profile_cubit.dart';
+import '../cubit/profile_cubit/profile_state.dart';
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
+    BottomSheet bottomSheet = BottomSheet(
+        onClosing: () {},
+        builder: (context2) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take Picture'),
+                onTap: () {
+                  context.read<ProfileCubit>().getFromCamera();
+                  Navigator.pop(context2);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo),
+                title: const Text('Upload Picture'),
+                onTap: () {
+                  context.read<ProfileCubit>().getFromGallery();
+                  Navigator.pop(context2);
+                },
+              ),
+            ],
+          );
+        });
+
     return Container(
       padding: const EdgeInsets.all(18),
       width: double.infinity,
@@ -22,23 +50,21 @@ class Header extends StatelessWidget {
             "Edit Profile & Settings",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
           ),
-          const SizedBox(height: 28),
+          SizedBox(height: height * 0.033),
           Stack(
             children: [
               BlocBuilder<ProfileCubit, ProfileState>(
                 builder: (context, state) {
-                  return Container(
-                    width: 130,
-                    height: 130,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      shape: BoxShape.circle,
-                    ),
-                    child: (state is ImageSelectedState)
-                        ? Image.file(new File(state.path))
-                        : Image.network(
-                            'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
-                  );
+                  if (state is ImageSelectedState) {
+                    return CircleAvatar(
+                        radius: 64, backgroundImage: FileImage(state.path));
+                  } else {
+                    return CircleAvatar(
+                      radius: 64,
+                      backgroundImage: NetworkImage(
+                          'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+                    );
+                  }
                 },
               ),
               Positioned(
@@ -56,38 +82,8 @@ class Header extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return BlocProvider(
-                                  create: (context) => ProfileCubit(),
-                                  child: BottomSheet(
-                                      onClosing: () {},
-                                      builder: (context) {
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            ListTile(
-                                              leading: new Icon(Icons.photo),
-                                              title: new Text('Take Picture'),
-                                              onTap: () {
-                                                context
-                                                    .read<ProfileCubit>()
-                                                    .getFromCamera();
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                            ListTile(
-                                              leading:
-                                                  new Icon(Icons.music_note),
-                                              title: new Text('Upload Picture'),
-                                              onTap: () {
-                                                context
-                                                    .read<ProfileCubit>()
-                                                    .getFromGallery();
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                );
+                                    create: (context) => ProfileCubit(),
+                                    child: bottomSheet);
                               });
                         },
                         child: const Icon(

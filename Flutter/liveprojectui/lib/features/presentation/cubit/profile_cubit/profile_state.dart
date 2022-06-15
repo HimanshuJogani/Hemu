@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
@@ -8,6 +10,11 @@ class ErrorState extends ProfileState {
 }
 
 class ImageSelectedState extends ProfileState {
-  final path;
+  final File path;
   ImageSelectedState({required this.path});
+}
+
+class TimeChangeState extends ProfileState {
+  final String time;
+  TimeChangeState({required this.time});
 }

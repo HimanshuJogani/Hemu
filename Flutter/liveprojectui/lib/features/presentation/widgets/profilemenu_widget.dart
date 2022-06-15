@@ -1,10 +1,19 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_cubit/profile_cubit.dart';
+import 'package:liveprojectui/features/presentation/cubit/profile_cubit/profile_state.dart';
+
 import 'package:liveprojectui/features/presentation/widgets/profilemenu_field.dart';
 
+import '../cubit/switch_cubit/switch_cubit.dart';
+
 class ProfileMenu extends StatelessWidget {
-  const ProfileMenu({
+  ProfileMenu({
     Key? key,
   }) : super(key: key);
+  String time = "time";
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +27,10 @@ class ProfileMenu extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return UpdateDialog(name: "First Name");
+                    return UpdateDialog(
+                      name: "First Name",
+                      data: 'fname',
+                    );
                   });
             },
             data: "fname",
@@ -29,7 +41,10 @@ class ProfileMenu extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return UpdateDialog(name: "First Name");
+                    return UpdateDialog(
+                      name: "First Name",
+                      data: 'lname',
+                    );
                   });
             },
             data: "lname",
@@ -41,32 +56,48 @@ class ProfileMenu extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return UpdateDialog(name: "First Name");
+                    return UpdateDialog(
+                      name: "First Name",
+                      data: 'email',
+                    );
                   });
             },
           ),
-          FromField(
-            labelName: 'Day End Time',
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return UpdateDialog(name: "First Name");
-                  });
+          BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              if (state is TimeChangeState) {
+                time = state.time;
+                print(time);
+              }
+              return FromField(
+                labelName: 'Day End Time',
+                onTap: () async {
+                  var userTime = await showTimePicker(
+                      context: context, initialTime: TimeOfDay.now());
+
+                  BlocProvider.of<ProfileCubit>(context).getTime(userTime!);
+                },
+                data: time,
+              );
             },
-            data: "dayend",
           ),
           const SizedBox(
             height: 10,
           ),
-          const SwitchField(
-            text: '1 hour left notification',
+          BlocProvider(
+            create: (context) => SwitchCubit(),
+            child: SwitchField(
+              text: '1 hour left notification',
+            ),
           ),
           const Divider(
             color: Colors.black,
           ),
-          const SwitchField(
-            text: 'Save Progress pics to phone',
+          BlocProvider(
+            create: (context) => SwitchCubit(),
+            child: SwitchField(
+              text: 'Save Progress pics to phone',
+            ),
           ),
           const Divider(
             color: Colors.black,
@@ -94,21 +125,26 @@ class ProfileMenu extends StatelessWidget {
 
 class UpdateDialog extends StatelessWidget {
   final String name;
+  final String data;
 
-  UpdateDialog({Key? key, required this.name}) : super(key: key);
+  UpdateDialog({Key? key, required this.name, required this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(name),
       content: TextFormField(
+        initialValue: data,
         decoration: InputDecoration(
           border: UnderlineInputBorder(),
         ),
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           style: ElevatedButton.styleFrom(
               primary: Colors.black, textStyle: const TextStyle(fontSize: 20)),
           child: Text('Update'),
