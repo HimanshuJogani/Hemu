@@ -7,6 +7,8 @@ import 'package:introscreen/alertDailog.dart';
 import 'package:introscreen/cubit/indicator_cubit.dart';
 import 'package:introscreen/introduction.dart';
 import 'package:introscreen/pintrest.dart';
+import 'package:introscreen/popup/addCollectionPopUp.dart';
+import 'package:introscreen/sql/cubit/crud_cubit.dart';
 import 'package:introscreen/sql/page/homepage.dart';
 
 void main() {
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SqlPage());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, home: AddCollectionPopUp());
   }
 }

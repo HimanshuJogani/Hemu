@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:introscreen/sql/cubit/crud_cubit.dart';
 
 class UserBottomSheet extends StatelessWidget {
-  const UserBottomSheet({Key? key}) : super(key: key);
+  UserBottomSheet({Key? key}) : super(key: key);
+
+  final TextEditingController id = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class UserBottomSheet extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                controller: id,
               ),
             ),
             Padding(
@@ -42,6 +49,7 @@ class UserBottomSheet extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                controller: firstName,
               ),
             ),
             Padding(
@@ -58,11 +66,17 @@ class UserBottomSheet extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                controller: lastName,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 20),
               child: GestureDetector(
+                onTap: () {
+                  BlocProvider.of<CrudCubit>(context)
+                      .createClient(id.text, firstName.text, lastName.text);
+                  Navigator.of(context).pop();
+                },
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(

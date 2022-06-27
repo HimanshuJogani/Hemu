@@ -29,7 +29,7 @@ class DBHelper {
       await db.execute("CREATE TABLE $tableName ("
           "id INTEGER PRIMARY KEY,"
           "first_name TEXT,"
-          "last_name TEXT,"
+          "last_name TEXT"
           ")");
     });
   }
