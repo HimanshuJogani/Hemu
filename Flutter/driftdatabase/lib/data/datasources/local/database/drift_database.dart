@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:driftdatabase/employee_dao.dart';
+import 'package:driftdatabase/data/datasources/local/daos/employee_dao.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 part 'drift_database.g.dart';
-
 
 @DataClassName('Employee')
 class EmployeeTable extends Table {
@@ -21,12 +20,10 @@ class EmployeeTable extends Table {
 
 @DriftDatabase(tables: [EmployeeTable], daos: [EmployeeDao])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase()
-      : super(_openConnection());
+  AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
-
 }
 
 LazyDatabase _openConnection() {

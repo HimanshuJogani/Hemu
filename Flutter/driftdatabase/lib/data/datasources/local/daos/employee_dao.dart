@@ -1,9 +1,10 @@
 import 'package:drift/drift.dart';
-import 'drift_database.dart';
+import '../database/drift_database.dart';
 part 'employee_dao.g.dart';
 
 @DriftAccessor(tables: [EmployeeTable])
-class EmployeeDao extends DatabaseAccessor<AppDatabase> with _$EmployeeDaoMixin {
+class EmployeeDao extends DatabaseAccessor<AppDatabase>
+    with _$EmployeeDaoMixin {
   final AppDatabase db;
 
   EmployeeDao(this.db) : super(db);
@@ -17,7 +18,9 @@ class EmployeeDao extends DatabaseAccessor<AppDatabase> with _$EmployeeDaoMixin 
     });
   }
 
-  Future updateEmployee(Insertable<Employee> employeeDetails) => update(employeeTable).replace(employeeDetails);
+  Future updateEmployee(Insertable<Employee> employeeDetails) =>
+      update(employeeTable).replace(employeeDetails);
 
-  Future deleteEmployee(Insertable<Employee> employeeDetails) => delete(employeeTable).delete(employeeDetails);
+  Future deleteEmployee(Insertable<Employee> employeeDetails) =>
+      delete(employeeTable).delete(employeeDetails);
 }
