@@ -1,0 +1,16 @@
+{
+  "auditEntity" : [
+    {
+      "EmployeeId": 0,
+      "EmployeeName" : "xyz",
+      "EmployeeSalary": 2000,
+      "EmployeeJoiningDate": "15/11/2015"
+    },
+    {
+      "EmployeeId": 1,
+      "EmployeeName" : "abc",
+      "EmployeeSalary": 4000,
+      "EmployeeJoiningDate": "15/11/2020"
+    }
+  ]
+}

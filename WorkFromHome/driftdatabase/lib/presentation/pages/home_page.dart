@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:drift/drift.dart' as drift;
 
 class MyHomePage extends StatelessWidget {
-  AppDatabase appDatabase = AppDatabase();
-  late List<Employee?> employeeList;
+
+  late  List<Employee> employeeList;
 
   final TextEditingController id1 = TextEditingController();
   final TextEditingController name1 = TextEditingController();
@@ -28,26 +28,10 @@ class MyHomePage extends StatelessWidget {
           builder: (context, state) {
             print(state.toString());
             if (state is DriftDatabaseSuccess) {
-              return FutureBuilder<List<Employee>>(
-                  future: appDatabase.employeeDao.watchAllEmployee(),
-                  builder: (context, snapshot) {
-                    List<Employee>? employeeList = snapshot.data;
-                    if (!snapshot.hasData) {
-                      print('no data');
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (employeeList!.isEmpty) {
-                      return const Center(
-                          child: Text(
-                        'No Data Found',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ));
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data!.length,
+              return  ListView.builder(
+                          itemCount: employeeList.length,
                           itemBuilder: (context, index) {
-                            final Employee data = snapshot.data![index];
+                            final Employee data = employeeList[index];
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
@@ -59,16 +43,16 @@ class MyHomePage extends StatelessWidget {
                                   color: Colors.white,
                                   child: ListTile(
                                       title: Text(
-                                          "Id  : ${snapshot.data![index].employeeId}"),
+                                          "Id  : ${employeeList[index].employeeId}"),
                                       subtitle: Wrap(
                                           direction: Axis.vertical,
                                           children: [
                                             Text(
-                                                "Name : ${snapshot.data![index].employeeName},"),
+                                                "Name : ${employeeList[index].employeeName},"),
                                             Text(
-                                                'Salary : ${snapshot.data![index].employeeSalary}'),
+                                                'Salary : ${employeeList[index].employeeSalary}'),
                                             Text(
-                                                'Joining Date: ${snapshot.data![index].employeeJoiningDate}'),
+                                                'Joining Date: ${employeeList[index].employeeJoiningDate}'),
                                           ]),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -101,11 +85,7 @@ class MyHomePage extends StatelessWidget {
                                             ),
                                             child: IconButton(
                                                 onPressed: () async {
-                                                  context
-                                                      .read<
-                                                          DriftDatabaseCubit>()
-                                                      .deleteEmp(snapshot
-                                                          .data![index]);
+                                                 context.read<DriftDatabaseCubit>().deleteEmp(employeeList[index]);
                                                 },
                                                 icon: const Icon(
                                                   Icons.delete,
@@ -118,14 +98,10 @@ class MyHomePage extends StatelessWidget {
                               ),
                             );
                           });
-                    }
-                  });
-            } else {
-              return SizedBox();
+                    } else {
+              return Text('Data Not Found');
             }
-          },
-        ),
-      ),
+                  })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print('plus');
@@ -229,12 +205,11 @@ class MyHomePage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(primary: Colors.red),
                 onPressed: () {
                   if (action == 'create') {
-                    context.read<DriftDatabaseCubit>().addEmp(
-                        id1.text, name1.text, salary1.text, joiningdate1.text);
+                    context.read<DriftDatabaseCubit>().insertEmp();
                   }
                   if (action == 'update') {
-                    context.read<DriftDatabaseCubit>().updateEmp(
-                        id1.text, name1.text, salary1.text, joiningdate1.text);
+                    Employee a = Employee(employeeId: int.parse(id1.text),employeeName: name1.text,employeeSalary: int.parse(salary1.text),employeeJoiningDate: joiningdate1.text);
+                    context.read<DriftDatabaseCubit>().updateEmp(a);
                   }
                   Navigator.of(context).pop();
                 },

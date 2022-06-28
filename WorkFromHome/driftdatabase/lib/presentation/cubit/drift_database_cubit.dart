@@ -1,46 +1,43 @@
+import 'package:driftdatabase/core/usecase/usecase.dart';
+import 'package:driftdatabase/data/datasources/local/database/drift_database.dart';
+import 'package:driftdatabase/domain/usecase/add_employee_entities.dart';
+import 'package:driftdatabase/domain/usecase/delete_employee_entities.dart';
+import 'package:driftdatabase/domain/usecase/get_employee_entities_usecase.dart';
+import 'package:driftdatabase/domain/usecase/update_employee_entities.dart';
 import 'package:driftdatabase/presentation/cubit/drift_database_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drift/drift.dart' as drift;
 
-import '../../data/datasources/local/database/drift_database.dart';
+
+
+
 
 class DriftDatabaseCubit extends Cubit<DriftDatabaseState> {
-  DriftDatabaseCubit() : super(DriftDatabaseSuccess());
-  AppDatabase appDatabase = AppDatabase();
+  DriftDatabaseCubit(this.getEmployeeEntities, this.addEmployeeEntities, this.deleteEmployeeEntities, this.updateEmployeeEntities) : super(DriftDatabaseInitial());
 
-  Future<void> addEmp(
-      String id, String name, String salary, String joiningdate) async {
-    // try {
-    //   List<EmployeeTableCompanion> list = [];
-    //   final data = EmployeeTableCompanion.insert(
-    //     employeeId: drift.Value(int.parse(id)),
-    //     employeeName: drift.Value(name),
-    //     employeeSalary: drift.Value(int.parse(salary)),
-    //     employeeJoiningDate: drift.Value(joiningdate),
-    //   );
-    //   list.add(data);
-    //   print(data);
-    //   print(list.toString());
-    //   await appDatabase.employeeDao.insertEmployee(list);
-    //   emit(DriftDatabaseSuccess());
-    // } catch (e) {
-    //   print('fail');
-    // }
+  final GetEmployeeEntities getEmployeeEntities;
+  final AddEmployeeEntities addEmployeeEntities;
+  final DeleteEmployeeEntities deleteEmployeeEntities;
+  final UpdateEmployeeEntities updateEmployeeEntities;
+
+  insertEmp()async{
+    await addEmployeeEntities.call(NoParams());
+    getEmp();
   }
 
-  Future<void> updateEmp(
-      String id, String name, String salary, String joiningdate) async {
-    Employee e = Employee(
-        employeeId: int.parse(id),
-        employeeName: name,
-        employeeSalary: int.parse(salary),
-        employeeJoiningDate: joiningdate);
-    await appDatabase.employeeDao.updateEmployee(e);
-    emit(DriftDatabaseSuccess());
+  getEmp() async {
+    final datalist = await getEmployeeEntities.call(NoParams());
+    datalist?.fold((l) => null, (r) => emit(DriftDatabaseSuccess(employeeList: r as List<Employee>)));
   }
 
-  Future<void> deleteEmp(Employee emp) async {
-    await appDatabase.employeeDao.deleteEmployee(emp);
-    emit(DriftDatabaseSuccess());
+
+  deleteEmp(Employee employee) async {
+    await deleteEmployeeEntities.call(employee);
+    getEmp();
+  }
+
+  updateEmp(Employee employee) async {
+    await updateEmployeeEntities.call(employee);
+    getEmp();
   }
 }
