@@ -3,8 +3,11 @@ import 'package:apicallingpost/features/apicalling_post/data/model/api_call_mode
 
 import 'package:dartz/dartz.dart';
 
-abstract class ApiCallingPostRepository{
-  Future<Either<Failure, List<ApiCallModel>>> apiCallingPostRepo();
-  Future<Either<Failure,List<ApiCallModel>>> apiCallingGetRepo();
+abstract class ApiCallingPostRepository {
+  Future<Either<Failure, List<ApiCallModel>>> apiCallingPostRepo(
+      ApiCallModel apiCallModel);
+  Future<Either<Failure, List<ApiCallModel>>> apiCallingGetRepo();
+  Future<Either<Failure, List<ApiCallModel>>> apiCallingDeleteRepo(int id);
+  Future<Either<Failure, List<ApiCallModel>>> apiCallingUpdateRepo(
+      ApiCallModel apiCallModel);
 }
-

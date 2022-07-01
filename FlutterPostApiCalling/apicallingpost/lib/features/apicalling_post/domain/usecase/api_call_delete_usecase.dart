@@ -5,24 +5,23 @@ import 'package:apicallingpost/features/apicalling_post/domain/repository/api_ca
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class GetApiCallingPostUsecase implements UseCase<List<ApiCallModel>, Params> {
+class DeleteApiCallingGetUsecase
+    implements UseCase<List<ApiCallModel>, DeleteParams> {
   final ApiCallingPostRepository apiCallingPostRepository;
-  GetApiCallingPostUsecase(this.apiCallingPostRepository);
+  DeleteApiCallingGetUsecase(this.apiCallingPostRepository);
 
   @override
-  Future<Either<Failure, List<ApiCallModel>>> call(Params params) async {
+  Future<Either<Failure, List<ApiCallModel>>> call(DeleteParams params) {
     // TODO: implement call
-    print('usecase');
-    return await apiCallingPostRepository
-        .apiCallingPostRepo(params.apiCallModel);
+    return apiCallingPostRepository.apiCallingDeleteRepo(params.studentId);
   }
 }
 
-class Params extends Equatable {
-  final ApiCallModel apiCallModel;
-  Params(this.apiCallModel);
+class DeleteParams extends Equatable {
+  final int studentId;
+  DeleteParams(this.studentId);
 
   @override
   // TODO: implement props
-  List<Object?> get props => [apiCallModel];
+  List<Object?> get props => [studentId];
 }

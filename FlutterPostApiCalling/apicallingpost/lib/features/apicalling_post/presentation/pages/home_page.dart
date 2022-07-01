@@ -5,48 +5,118 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
-   MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
+  List<ApiCallModel> employeeList = [];
+
+  final TextEditingController id1 = TextEditingController();
+  final TextEditingController name1 = TextEditingController();
+  final TextEditingController address1 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: BlocListener<ApiCallCubit, ApiCallState>(
-          listener: (context, state) {
-            // TODO: implement listener
-            if(state is ApiCallSuccess){
-              print(state.apiCallModel);
-            }
-          },
-          child: ElevatedButton(onPressed: () {
-            context.read<ApiCallCubit>().getAllDataFromApi();
-          }, child: Text('Get'),),
-        ),
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BlocBuilder<ApiCallCubit, ApiCallState>(
+                builder: (context, state) {
+              print(state.toString());
+              if (state is ApiCallSuccess) {
+                employeeList = state.apiCallModel;
+                return ListView.builder(
+                    itemCount: employeeList.length,
+                    itemBuilder: (context, index) {
+                      final ApiCallModel data = employeeList[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.redAccent),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Card(
+                            color: Colors.white,
+                            child: ListTile(
+                                title: Text(
+                                    "Id  : ${employeeList[index].studentId}"),
+                                subtitle:
+                                    Wrap(direction: Axis.vertical, children: [
+                                  Text("Name : ${employeeList[index].name},"),
+                                  Text(
+                                      'Address : ${employeeList[index].address}'),
+                                ]),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.lightGreen),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: IconButton(
+                                          onPressed: () {
+                                            _showDialog(context, data);
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.lightGreen,
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.red),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: IconButton(
+                                          onPressed: () async {
+                                            context
+                                                .read<ApiCallCubit>()
+                                                .deleteStudentData(
+                                                    employeeList[index]
+                                                        .studentId!);
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          )),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        ),
+                      );
+                    });
+              } else {
+                return Text('Data Not Found');
+              }
+            })),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print('plus');
-          _showDialog(context);
+          _showDialog(context, null);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 
-
-  void _showDialog(BuildContext context) {
-    // String action = 'create';
-    // if (employee != null) {
-    //   action = 'update';
-    //   // id1.text = employee.employeeId.toString();
-    //   // name1.text = employee.employeeName!;
-    //   // salary1.text = employee.employeeSalary.toString();
-    //   // joiningdate1.text = employee.employeeJoiningDate!;
-    // }
+  void _showDialog(BuildContext context, ApiCallModel? apiCallModel) {
+    String action = 'create';
+    if (apiCallModel != null) {
+      action = 'update';
+      id1.text = apiCallModel.studentId.toString();
+      name1.text = apiCallModel.name!;
+      address1.text = apiCallModel.address!;
+    }
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (_) {
         return AlertDialog(
           title: Text(
             "Employee Details".toUpperCase(),
@@ -68,7 +138,7 @@ class MyHomePage extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                // controller: id1,
+                controller: id1,
               ),
             ),
             Padding(
@@ -84,14 +154,14 @@ class MyHomePage extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                // controller: name1,
+                controller: name1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Salary',
+                  hintText: 'Address',
                   hintStyle: TextStyle(color: Colors.redAccent[100]),
                   border: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.red),
@@ -100,23 +170,7 @@ class MyHomePage extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                // controller: salary1,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Date',
-                  hintStyle: TextStyle(color: Colors.redAccent[100]),
-                  border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.circular(30)),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                ),
-                // controller: joiningdate1,
+                controller: address1,
               ),
             ),
           ]),
@@ -124,27 +178,29 @@ class MyHomePage extends StatelessWidget {
           actions: <Widget>[
             Center(
               child: ElevatedButton(
-                  child: Text("Submit"),
+                  child: Text(action == 'create' ? "Submit" : 'Update'),
                   style: ElevatedButton.styleFrom(primary: Colors.red),
                   onPressed: () {
-                    //if (action == 'create') {
-                    // context.read<DriftDatabaseCubit>().insertEmp(
-                    //     int.parse(id1.text),
-                    //     name1.text,
-                    //     int.parse(salary1.text),
-                    //     joiningdate1.text);
-                    //}
-                    //if (action == 'update') {
-                    // Employee a = Employee(
-                    //     employeeId: int.parse(id1.text),
-                    //     employeeName: name1.text,
-                    //     employeeSalary: int.parse(salary1.text),
-                    //     employeeJoiningDate: joiningdate1.text);
-                    // context.read<DriftDatabaseCubit>().updateEmp(a);
-                  }
-                //Navigator.of(context).pop();
-
-              ),
+                    if (action == 'create') {
+                      ApiCallModel data = ApiCallModel(
+                          studentId: int.parse(id1.text),
+                          name: name1.text,
+                          address: address1.text);
+                      print(data.name);
+                      context.read<ApiCallCubit>().addAllDataToApi(data);
+                      id1.clear();
+                      name1.clear();
+                      address1.clear();
+                    }
+                    if (action == 'update') {
+                      ApiCallModel data = ApiCallModel(
+                          studentId: int.parse(id1.text),
+                          name: name1.text,
+                          address: address1.text);
+                      context.read<ApiCallCubit>().updateStudentData(data);
+                    }
+                    Navigator.of(_).pop();
+                  }),
             ),
           ],
         );
@@ -152,5 +208,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-

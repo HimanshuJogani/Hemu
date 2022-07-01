@@ -5,22 +5,21 @@ import 'package:apicallingpost/features/apicalling_post/domain/repository/api_ca
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class GetApiCallingPostUsecase implements UseCase<List<ApiCallModel>, Params> {
+class UpdateApiCallingUpdateUsecase
+    implements UseCase<List<ApiCallModel>, UpdateParams> {
   final ApiCallingPostRepository apiCallingPostRepository;
-  GetApiCallingPostUsecase(this.apiCallingPostRepository);
+  UpdateApiCallingUpdateUsecase(this.apiCallingPostRepository);
 
   @override
-  Future<Either<Failure, List<ApiCallModel>>> call(Params params) async {
+  Future<Either<Failure, List<ApiCallModel>>> call(UpdateParams params) {
     // TODO: implement call
-    print('usecase');
-    return await apiCallingPostRepository
-        .apiCallingPostRepo(params.apiCallModel);
+    return apiCallingPostRepository.apiCallingUpdateRepo(params.apiCallModel);
   }
 }
 
-class Params extends Equatable {
+class UpdateParams extends Equatable {
   final ApiCallModel apiCallModel;
-  Params(this.apiCallModel);
+  UpdateParams(this.apiCallModel);
 
   @override
   // TODO: implement props

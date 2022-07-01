@@ -8,7 +8,8 @@ const auth = require('../middleware/authentication')
 router.get('/:id/fees',students.fees);
 router.get('/',students.getStudents);
 router.get('/:id/result',[auth],students.result);
-router.get('/:id',[auth],students.stddelete);
+router.delete('/delete/:id',students.stddelete);
 router.post('/add',students.stdcreate);
+router.put('/update/:studentId',students.updateStudent);
 
 module.exports = router;
