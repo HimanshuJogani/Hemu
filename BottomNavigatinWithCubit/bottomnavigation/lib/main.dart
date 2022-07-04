@@ -3,6 +3,8 @@ import 'package:bottomnavigation/bottom_navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'inbuiltbottomnavigation.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => BottomNavigationCubit(),
-        child: MyHomePage(),
+        child: InBuiltBottomNavigation(),
       ),
     );
   }
