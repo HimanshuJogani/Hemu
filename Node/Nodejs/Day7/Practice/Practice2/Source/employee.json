@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "name": "Hemu",
+        "displayname": "2449-Himanshu",
+        "Dlno": "ASD347",
+        "dob": "03/07/2000",
+        "phone": 9558558724,
+        "address": "Amreli",
+        "state": "Gujarat",
+        "country": "India"
+    },
+    {
+        "id": 2,
+        "name": "xyz",
+        "displayname": "2400-xyz",
+        "Dlno": "xyz45",
+        "dob": "24/01/2000",
+        "phone": 985612,
+        "address": "Ahmedabad",
+        "state": "Gujarat",
+        "country": "India"
+    }
+]

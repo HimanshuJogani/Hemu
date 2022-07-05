@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "Name": "Hemu",
+        "Address": "Amreli"
+    },
+    {
+        "id": 2,
+        "Name": "Hemu",
+        "Address": "Amreli"
+    },
+    {
+        "id": 3,
+        "Name": "Ashish",
+        "Address": "Amreli"
+    },
+    {
+        "id": 4,
+        "Name": "Akash",
+        "Address": "Lathi"
+    },
+    {
+        "id": 5,
+        "Name": "Nikhil",
+        "Address": "Rajkot"
+    },
+    {
+        "id": 6,
+        "Name": "Arpit",
+        "Address": "Surat"
+    },
+    {
+        "id": 7,
+        "Name": "Nikhil",
+        "Address": "Rajkot"
+    }
+]

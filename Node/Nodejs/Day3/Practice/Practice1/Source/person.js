@@ -1,0 +1,2 @@
+
+exports.Greetingmessage = 'Good morning';
