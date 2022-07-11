@@ -76,58 +76,73 @@ class Header extends StatelessWidget {
         });
 
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(bottom: 50, top: 20),
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Stack(
-              children: [
-                InkWell(
-                  onTap: () {
-                    // showModalBottomSheet(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return bottomSheet;
-                    //     });
-                  },
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 66,
-                    child: CircleAvatar(
-                      radius: 64,
-                      backgroundImage: NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeKOAl1W8tSBWkHF730mDqM3kDsaUw_fwtBg&usqp=CAU'),
+      decoration: const BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20))),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Settings',
+              style: TextStyle(color: Colors.white, fontSize: 30),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      // showModalBottomSheet(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return bottomSheet;
+                      //     });
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 66,
+                      child: CircleAvatar(
+                        radius: 64,
+                        backgroundImage: NetworkImage(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeKOAl1W8tSBWkHF730mDqM3kDsaUw_fwtBg&usqp=CAU'),
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                        onTap: () {
-                          // showModalBottomSheet(
-                          //     context: context,
-                          //     builder: (context) {
-                          //       return bottomSheet;
-                          //     });
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 21,
-                          child: CircleAvatar(
-                              backgroundColor: Colors.blue,
-                              radius: 18,
-                              child: Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                              )),
-                        )))
-              ],
-            ),
-          )
-        ],
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                          onTap: () {
+                            // showModalBottomSheet(
+                            //     context: context,
+                            //     builder: (context) {
+                            //       return bottomSheet;
+                            //     });
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 21,
+                            child: CircleAvatar(
+                                backgroundColor: Colors.black,
+                                radius: 18,
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                )),
+                          )))
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

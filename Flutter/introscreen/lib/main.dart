@@ -5,6 +5,7 @@ import 'package:introscreen/OthersPages/budegtplan.dart';
 import 'package:introscreen/OthersPages/gettingstarted.dart';
 import 'package:introscreen/alertDailog.dart';
 import 'package:introscreen/cubit/indicator_cubit.dart';
+import 'package:introscreen/email_verification.dart';
 import 'package:introscreen/introduction.dart';
 import 'package:introscreen/introscreen_makemytrip/intro_mainpage.dart';
 import 'package:introscreen/pintrest.dart';
@@ -22,6 +23,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SettingPage());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: BlocProvider(
+          create: (context) => BottomIndicatorCubit(),
+          child: Introduction(),
+        ));
   }
 }
