@@ -100,11 +100,11 @@ class Header extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      // showModalBottomSheet(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return bottomSheet;
-                      //     });
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return bottomSheet;
+                          });
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.white,

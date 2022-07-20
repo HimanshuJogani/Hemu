@@ -20,42 +20,26 @@ class _MyAppState extends State<MyApp1> {
   @override
   void initState() {
     super.initState();
-    // Initialize the package
-    // emailAuth = new EmailAuth(
-    //   sessionName: "Sample session",
-    // );
-
-    /// Configuring the remote server
-    //emailAuth.config(remoteServerConfiguration);
   }
-
-  /// a void function to verify if the Data provided is true
-  /// Convert it into a boolean function to match your needs.
-  // void verify() {
-  //   print(emailAuth.validateOtp(
-  //       recipientMail: _emailcontroller.value.text,
-  //       userOtp: _otpcontroller.value.text));
-  // }
 
   void sendotp() async {
-    EmailAuth.sessionName = “Test Session”
-    var res = await EmailAuth.sendOtp(recieverMail: emailtextfield.text);
-    If (res){
-
+    emailAuth = EmailAuth(sessionName: 'Test Session');
+    var res = await emailAuth.sendOtp(
+        recipientMail: _emailcontroller.text, otpLength: 6);
+    if (res) {
+      print('success');
+    } else {
+      print("failure");
     }
-
   }
 
-
-  /// a void funtion to send the OTP to the user
-  /// Can also be converted into a Boolean function and render accordingly for providers
-  void sendOtp() async {
-    bool result = await emailAuth.sendOtp(
-        recipientMail: _emailcontroller.value.text, otpLength: 5);
-    if (result) {
-      setState(() {
-        submitValid = true;
-      });
+  void verifyotp() async {
+    var res = emailAuth.validateOtp(
+        recipientMail: _emailcontroller.text, userOtp: _otpcontroller.text);
+    if (res) {
+      print('Success otp');
+    } else {
+      print('Fail otp');
     }
   }
 
@@ -83,7 +67,9 @@ class _MyAppState extends State<MyApp1> {
                     width: 200,
                     color: Colors.green[400],
                     child: GestureDetector(
-                      onTap: sendOtp,
+                      onTap: () {
+                        sendotp();
+                      },
                       child: const Center(
                         child: Text(
                           "Request OTP",
@@ -111,7 +97,9 @@ class _MyAppState extends State<MyApp1> {
                         width: 200,
                         color: Colors.green[400],
                         child: GestureDetector(
-                          onTap: verify,
+                          onTap: () {
+                            verifyotp();
+                          },
                           child: Center(
                             child: Text(
                               "Verify",

@@ -8,6 +8,7 @@ import 'package:introscreen/cubit/indicator_cubit.dart';
 import 'package:introscreen/email_verification.dart';
 import 'package:introscreen/introduction.dart';
 import 'package:introscreen/introscreen_makemytrip/intro_mainpage.dart';
+import 'package:introscreen/mapApi/mapapi.dart';
 import 'package:introscreen/pintrest.dart';
 import 'package:introscreen/popup/addCollectionPopUp.dart';
 import 'package:introscreen/settings_makemytrip/page/settting_page.dart';
@@ -24,10 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: BlocProvider(
-          create: (context) => BottomIndicatorCubit(),
-          child: Introduction(),
-        ));
+        debugShowCheckedModeBanner: false, home: GooglePlacesApiScreen());
   }
 }
