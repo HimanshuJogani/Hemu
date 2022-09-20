@@ -6,5 +6,5 @@
 </p>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/68142955/191176267-f64d97e6-e070-4c86-990a-0fac428bd466.mp4" width="200" />
+<video src="https://user-images.githubusercontent.com/68142955/191176267-f64d97e6-e070-4c86-990a-0fac428bd466.mp4" width="200" />
 </p>
