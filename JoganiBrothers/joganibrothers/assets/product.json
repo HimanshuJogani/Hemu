@@ -1,0 +1,12 @@
+{
+  "product": [
+    {
+      "brandname": 1,
+      "weight": "steve",
+      "price": "captainamerica",
+      "transportation": "captainamerica",
+      "cgst": "captainamerica",
+      "sgst": "captainamerica"
+    }
+  ]
+}

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CommanTextField extends StatelessWidget {
-  const CommanTextField({Key? key, required this.title, required this.hintTxt}) : super(key: key);
+  CommanTextField({Key? key, required this.controller,required this.title, required this.hintTxt}) : super(key: key);
 
   final String title;
   final String hintTxt;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class CommanTextField extends StatelessWidget {
           Text(title),
           const SizedBox(height: 5),
           TextField (
+            controller: controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: hintTxt,

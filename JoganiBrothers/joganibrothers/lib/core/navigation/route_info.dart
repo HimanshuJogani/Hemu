@@ -3,4 +3,5 @@ class RoutesName {
   static const home = '/home';
   static const bill = '/bill';
   static const transportBill = '/transportbill';
+  static const products = '/products';
 }
