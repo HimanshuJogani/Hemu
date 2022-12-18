@@ -56,18 +56,18 @@ class Product {
     cgst = json['cgst'];
     sgst = json['sgst'];
   }
-  int? brandname;
-  String? weight;
-  String? price;
-  String? transportation;
-  String? cgst;
-  String? sgst;
-Product copyWith({  int? brandname,
-  String? weight,
-  String? price,
-  String? transportation,
-  String? cgst,
-  String? sgst,
+  String? brandname;
+  int? weight;
+  int? price;
+  int? transportation;
+  int? cgst;
+  int? sgst;
+Product copyWith({  String? brandname,
+  int? weight,
+  int? price,
+  int? transportation,
+  int? cgst,
+  int? sgst,
 }) => Product(  brandname: brandname ?? this.brandname,
   weight: weight ?? this.weight,
   price: price ?? this.price,
