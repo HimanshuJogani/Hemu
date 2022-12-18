@@ -15,9 +15,11 @@ class BillPage extends StatelessWidget {
   final TextEditingController villageController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   int count = 0;
-  List<Product> productList=[];
+  List<Product> productList = [];
+
   @override
   Widget build(BuildContext context) {
+    var _formKey = GlobalKey<FormState>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -28,72 +30,157 @@ class BillPage extends StatelessWidget {
             if (state is BillSuccess) {
               count = state.val;
             }
-            if(state is CheckState){
+            if (state is CheckState) {
               print(state.val);
               productList.add(state.val);
               print('product List :::: ${productList}');
             }
             return SingleChildScrollView(
-                child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Bill No:',
-                        style: AppTextStyles.labelStyle,
-                      ),
-                      const SizedBox(width: 5),
-                      Text("$count", style: AppTextStyles.labelStyle),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.edit_note,
+                child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Bill No:',
+                                style: AppTextStyles.labelStyle,
+                              ),
+                              const SizedBox(width: 5),
+                              Text("$count", style: AppTextStyles.labelStyle),
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.edit_note,
+                                ),
+                                iconSize: 40,
+                                onPressed: () {
+                                  _displayTextInputDialog(context);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        iconSize: 40,
-                        onPressed: () {
-                          _displayTextInputDialog(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                CommanTextField(
-                  title: 'Name',
-                  hintTxt: 'Name',
-                  controller: nameController,
-                ),
-                CommanTextField(
-                  title: 'Village',
-                  hintTxt: 'Village',
-                  controller: villageController,
-                ),
-                DatePicker(controller : dateController),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 20)),
-                  onPressed: () {
-                    print('name:::${nameController.text}');
-                    print('village:::${villageController.text}');
-                    print('date::${dateController.text}');
-                    context.read<BillCubit>().billSwitchToggle();
-                  },
-                  child: const Text('Submit'),
-                ),
-              ],
-            ));
+                        CommanTextField(
+                          title: 'Name',
+                          hintTxt: 'Name',
+                          controller: nameController,
+                          textType: TextInputType.text,
+                          validateFun: (value) {
+                            if (value!.isEmpty) {
+                              return 'pls write name';
+                            }
+                          },
+                        ),
+                        CommanTextField(
+                          title: 'Village',
+                          hintTxt: 'Village',
+                          controller: villageController,
+                          textType: TextInputType.text,
+                          validateFun: (value) {
+                            if (value!.isEmpty) {
+                              return 'pls write village name';
+                            }
+                          },
+                        ),
+                        DatePicker(controller: dateController),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: productList.length,
+                            itemBuilder: (_, int index) {
+                              return Card(
+                                  elevation: 10,
+                                  shadowColor: Colors.black,
+                                  child: Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'BrandName:',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            SizedBox(),
+                                            Text(
+                                                '${productList[index].brandname}',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 18)),
+                                          ]),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Price:',
+                                                style: TextStyle(fontSize: 10)),
+                                            SizedBox(),
+                                            Text('${productList[index].price}',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 18))
+                                          ]),
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                          Text('weight:',
+                                              style: TextStyle(fontSize: 10)),
+                                          SizedBox(),
+                                          Text('${productList[index].weight}',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(fontSize: 18))
+                                        ])),
+                                  ],
+                                ),
+                              ));
+                            }),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20)),
+                          onPressed: () {
+                            context.read<BillCubit>().billSwitchToggle();
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      ],
+                    )));
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async{
-             final dynamic res=await Navigator.pushNamed(context, RoutesName.products);
+          onPressed: () async {
+            final dynamic res =
+                await Navigator.pushNamed(context, RoutesName.products);
 
             // .then((value) => {
             //   print('then call'),
             //
             //   print('res :: ${(value as Map)['product']}'),
-             context.read<BillCubit>().check(res['product']);
+            print(res['product']);
+            context.read<BillCubit>().check(res['product']);
             //
             //  });
             print('Product:::${productList}');
