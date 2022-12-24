@@ -162,7 +162,7 @@ class BillPage extends StatelessWidget {
                               textStyle: const TextStyle(fontSize: 20)),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              context.read<BillCubit>().billSwitchToggle();
+                              //context.read<BillCubit>().billSwitchToggle();
                             }
                           },
                           child: const Text('Submit'),
@@ -220,5 +220,5 @@ class BillPage extends StatelessWidget {
           );
         });
   }
-}
+
 
