@@ -185,33 +185,40 @@ class BillPage extends StatelessWidget {
   }
 }
 
-Future<void> _displayTextInputDialog(BuildContext context) async {
-  final TextEditingController _name = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    final TextEditingController _name = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
 
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Add custom bill no'),
-          content: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: _formKey,
-            child: TextFormField(
-              onChanged: (value) {},
-              controller: _name,
-              decoration: InputDecoration(hintText: "Bill No"),
-              validator: (name) {},
+    return showDialog(
+        context: context,
+        builder: (context1) {
+          return AlertDialog(
+            title: const Text('Add custom bill no'),
+            content: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: _formKey,
+              child: TextFormField(
+                onChanged: (value) {},
+                controller: _name,
+                keyboardType:TextInputType.number,
+                decoration: InputDecoration(hintText: "Bill No"),
+                validator: (name) {},
+              ),
             ),
-          ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20)),
-              onPressed: () {},
-              child: const Text('Add'),
-            ),
-          ],
-        );
-      });
+            actions: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20)),
+                onPressed: () {
+                  print(int.parse(_name.text));
+                  context.read<BillCubit>().billSwitchToggle(int.parse(_name.text));
+                  Navigator.of(context, rootNavigator: true).pop('_displayTextInputDialog');
+                },
+                child: const Text('Add'),
+              ),
+            ],
+          );
+        });
+  }
 }
+
