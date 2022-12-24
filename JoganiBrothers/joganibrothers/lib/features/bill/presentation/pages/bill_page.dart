@@ -31,14 +31,11 @@ class BillPage extends StatelessWidget {
               count = state.val;
             }
             if (state is CheckState) {
-              print(state.val);
               productList.add(state.val);
-              print('product List :::: ${productList}');
             }
             return SingleChildScrollView(
                 child: Form(
                     key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       children: [
                         Padding(
@@ -69,10 +66,11 @@ class BillPage extends StatelessWidget {
                           hintTxt: 'Name',
                           controller: nameController,
                           textType: TextInputType.text,
-                          validateFun: (value) {
-                            if (value!.isEmpty) {
-                              return 'pls write name';
+                          callback: (String? val) {
+                            if(val == null || val!.isEmpty){
+                              return "Please Enter Name";
                             }
+                            return null;
                           },
                         ),
                         CommanTextField(
@@ -80,10 +78,11 @@ class BillPage extends StatelessWidget {
                           hintTxt: 'Village',
                           controller: villageController,
                           textType: TextInputType.text,
-                          validateFun: (value) {
-                            if (value!.isEmpty) {
-                              return 'pls write village name';
+                          callback: (String? val) {
+                            if(val == null || val!.isEmpty){
+                              return "Please Enter Village name";
                             }
+                            return null;
                           },
                         ),
                         DatePicker(controller: dateController),
@@ -162,7 +161,9 @@ class BillPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               textStyle: const TextStyle(fontSize: 20)),
                           onPressed: () {
-                            context.read<BillCubit>().billSwitchToggle();
+                            if (_formKey.currentState!.validate()) {
+                              context.read<BillCubit>().billSwitchToggle();
+                            }
                           },
                           child: const Text('Submit'),
                         ),
@@ -174,16 +175,7 @@ class BillPage extends StatelessWidget {
           onPressed: () async {
             final dynamic res =
                 await Navigator.pushNamed(context, RoutesName.products);
-
-            // .then((value) => {
-            //   print('then call'),
-            //
-            //   print('res :: ${(value as Map)['product']}'),
-            print(res['product']);
             context.read<BillCubit>().check(res['product']);
-            //
-            //  });
-            print('Product:::${productList}');
           },
           backgroundColor: Colors.blue,
           child: const Icon(Icons.add),

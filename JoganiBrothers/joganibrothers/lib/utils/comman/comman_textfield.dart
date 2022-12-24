@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-typedef validateFunction = String? Function(String?);
+typedef StringValue = String? Function(String? val);
 class CommanTextField extends StatelessWidget {
-  CommanTextField({Key? key, required this.controller,required this.title, required this.hintTxt, required this.textType,  required this.validateFun,}) : super(key: key);
+  CommanTextField({Key? key, required this.controller,required this.title, required this.hintTxt, required this.textType,  required this.callback,}) : super(key: key);
 
   final String title;
   final String hintTxt;
   final TextEditingController controller;
   final TextInputType textType;
-  final validateFunction validateFun;
+  final StringValue callback;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +25,7 @@ class CommanTextField extends StatelessWidget {
               hintText: hintTxt,
             ),
             keyboardType: textType,
-            validator: validateFun,
+            validator: callback,
          ),
       ],
       ),

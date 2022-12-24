@@ -16,6 +16,7 @@ class AddProductPage extends StatelessWidget {
   final TextEditingController cgstController = TextEditingController();
   final TextEditingController sgstController = TextEditingController();
   final Product _product = new Product();
+
   @override
   Widget build(BuildContext context) {
     var _formKey = GlobalKey<FormState>();
@@ -27,7 +28,6 @@ class AddProductPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Form(
               key: _formKey,
-              autovalidateMode:  AutovalidateMode.onUserInteraction,
               child: Column(
             children: [
               CommanTextField(
@@ -35,21 +35,23 @@ class AddProductPage extends StatelessWidget {
                 hintTxt: 'Brand Name',
                 controller: brandNameController,
                 textType: TextInputType.text,
-                validateFun: (value){
-                  if(value!.isEmpty){
-                    return 'pls write brand name';
+                callback: (String? val) {
+                  if(val!.isEmpty){
+                    return "Please Enter Brand name";
                   }
-                },
+                  return null;
+              },
               ),
               CommanTextField(
                 title: 'Weight',
                 hintTxt: 'Weight',
                 controller: weightController,
                 textType: TextInputType.number,
-                validateFun: (value){
-                  if(value!.isEmpty){
-                    return 'pls write weight';
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return "Please Enter Weight";
                   }
+                  return null;
                 },
               ), //number
               CommanTextField(
@@ -57,10 +59,11 @@ class AddProductPage extends StatelessWidget {
                 hintTxt: 'Price',
                 controller: priceController,
                 textType: TextInputType.number,
-                validateFun: (value){
-                  if(value!.isEmpty){
-                    return 'pls write price';
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return "Please Enter Price";
                   }
+                  return null;
                 },
               ), //number demail
               CommanTextField(
@@ -68,10 +71,11 @@ class AddProductPage extends StatelessWidget {
                 hintTxt: 'Transportation',
                 controller: transportationController,
                 textType: TextInputType.number,
-                validateFun: (value){
-                  if(value!.isEmpty){
-                    return 'pls write transportation';
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return "Please Enter Transportation";
                   }
+                  return null;
                 },
               ), //number
               CommanTextField(
@@ -79,27 +83,43 @@ class AddProductPage extends StatelessWidget {
                 hintTxt: 'CGST',
                 controller: cgstController,
                 textType: TextInputType.number,
-                validateFun: (value) { return null; },
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return null;
+                  }
+                  return null;
+                },
               ), //number required nai
               CommanTextField(
                 title: 'SGST',
                 hintTxt: 'SGST',
                 controller: sgstController,
                 textType: TextInputType.number,
-                validateFun: (value) { return null; },
-
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return null;
+                  }
+                  return null;
+                },
               ), //number ||
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {
+                if (_formKey.currentState!.validate()) {
                   _product.brandname = brandNameController.text;
-                  _product.cgst = int.parse(cgstController.text.length==0 ? '0' : cgstController.text);
-                  _product.sgst = int.parse(sgstController.text.length==0 ? '0' : sgstController.text);
+                  _product.cgst = int.parse(
+                      cgstController.text.length == 0 ? '0' : cgstController
+                          .text);
+                  _product.sgst = int.parse(
+                      sgstController.text.length == 0 ? '0' : sgstController
+                          .text);
                   _product.price = int.parse(priceController.text);
-                  _product.weight=int.parse(weightController.text);
-                  _product.transportation = int.parse(transportationController.text);
+                  _product.weight = int.parse(weightController.text);
+                  _product.transportation =
+                      int.parse(transportationController.text);
                   Navigator.pop(context, {'product': _product});
+                 }
                 },
                 child: const Text('Add Product'),
               ),
