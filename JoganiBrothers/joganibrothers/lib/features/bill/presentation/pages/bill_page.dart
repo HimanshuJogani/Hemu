@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:joganibrothers/core/navigation/route_info.dart';
 import 'package:joganibrothers/core/theme/text_styles.dart';
+import 'package:joganibrothers/features/Invoice/presentation/pages/invoice_page.dart';
 import 'package:joganibrothers/features/bill/presentation/cubit/bill_cubit.dart';
 import 'package:joganibrothers/features/bill/presentation/cubit/bill_state.dart';
 import 'package:joganibrothers/utils/comman/comman_date_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import '../../../../core/temple/index.dart';
 import '../../../../utils/comman/comman_textfield.dart';
 import '../../../products/data/models/product_model.dart';
 
@@ -16,9 +22,22 @@ class BillPage extends StatelessWidget {
   final TextEditingController dateController = TextEditingController();
   int count = 0;
   List<Product> productList = [];
+  String? generatedPdfFilePath;
+
+  Future<void> generateDocument() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    final targetFileName = "Jogani-pdf";
+
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        htmlContent, targetPath, targetFileName);
+    print("generatedPdfFile.path>>>> ${generatedPdfFile.path}");
+    generatedPdfFilePath = generatedPdfFile.path;
+  }
 
   @override
   Widget build(BuildContext context) {
+    generateDocument();
     var _formKey = GlobalKey<FormState>();
     return SafeArea(
       child: Scaffold(
@@ -163,6 +182,16 @@ class BillPage extends StatelessWidget {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               //context.read<BillCubit>().billSwitchToggle();
+                              print("generatedPdfFilePath>>>>> $generatedPdfFilePath");
+                              if(generatedPdfFilePath!.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      InvoicePage(
+                                        generatedPdfFilePath: generatedPdfFilePath ??
+                                            "",)),
+                                );
+                              }
                             }
                           },
                           child: const Text('Submit'),
