@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
@@ -31,8 +32,8 @@ class BillPage extends StatelessWidget {
 
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
         htmlContent, targetPath, targetFileName);
-    print("generatedPdfFile.path>>>> ${generatedPdfFile.path}");
     generatedPdfFilePath = generatedPdfFile.path;
+    //await OpenFile.open(file.path);
   }
 
   @override
@@ -58,7 +59,7 @@ class BillPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Row(
                             children: [
                               const Text(
@@ -106,18 +107,18 @@ class BillPage extends StatelessWidget {
                         ),
                         DatePicker(controller: dateController),
                         Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: ListView.builder(
                             primary: false,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: productList.length,
                             itemBuilder: (_, int index) {
                               return Card(
                                   elevation: 10,
                                   shadowColor: Colors.black,
                                   child: Padding(
-                                padding: EdgeInsets.all(12.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -131,15 +132,15 @@ class BillPage extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'BrandName:',
                                               style: TextStyle(fontSize: 10),
                                             ),
-                                            SizedBox(),
+                                            const SizedBox(),
                                             Text(
                                                 '${productList[index].brandname}',
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 18)),
+                                                style: const TextStyle(fontSize: 18)),
                                           ]),
                                     ),
                                     Expanded(
@@ -149,12 +150,12 @@ class BillPage extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('Price:',
+                                            const Text('Price:',
                                                 style: TextStyle(fontSize: 10)),
-                                            SizedBox(),
+                                            const SizedBox(),
                                             Text('${productList[index].price}',
                                                 overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(fontSize: 18))
+                                                style: const TextStyle(fontSize: 18))
                                           ]),
                                     ),
                                     Expanded(
@@ -164,12 +165,12 @@ class BillPage extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                          Text('weight:',
+                                          const Text('weight:',
                                               style: TextStyle(fontSize: 10)),
-                                          SizedBox(),
+                                          const SizedBox(),
                                           Text('${productList[index].weight}',
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 18))
+                                              style: const TextStyle(fontSize: 18))
                                         ])),
                                   ],
                                 ),
@@ -182,7 +183,6 @@ class BillPage extends StatelessWidget {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               //context.read<BillCubit>().billSwitchToggle();
-                              print("generatedPdfFilePath>>>>> $generatedPdfFilePath");
                               if(generatedPdfFilePath!.isNotEmpty) {
                                 Navigator.push(
                                   context,
@@ -230,7 +230,7 @@ class BillPage extends StatelessWidget {
                 onChanged: (value) {},
                 controller: _name,
                 keyboardType:TextInputType.number,
-                decoration: InputDecoration(hintText: "Bill No"),
+                decoration: const InputDecoration(hintText: "Bill No"),
                 validator: (name) {},
               ),
             ),
