@@ -73,7 +73,7 @@ class AddProductPage extends StatelessWidget {
                 textType: TextInputType.number,
                 callback: (String? val) {
                   if(val == null || val!.isEmpty){
-                    return "Please Enter Transportation";
+                    return null;
                   }
                   return null;
                 },

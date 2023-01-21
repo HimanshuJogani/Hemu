@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../products/data/models/product_model.dart';
@@ -11,7 +12,6 @@ class BillCubit extends Cubit<BillState> {
   billCounter()async{
     final prefs = await SharedPreferences.getInstance();
     int? c = prefs.getInt('counter');
-    print('C:::::::${c}');
     if(c==null){
       await prefs.setInt('counter', 1).then((bool sucess)=>{
         if(sucess){
@@ -32,7 +32,7 @@ class BillCubit extends Cubit<BillState> {
   }
 
   check(value){
-     print('value::${value}');
      emit(CheckState(val:value));
   }
+
 }

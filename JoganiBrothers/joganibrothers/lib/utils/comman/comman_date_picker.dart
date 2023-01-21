@@ -12,14 +12,8 @@ class DatePicker extends StatelessWidget {
           initialDate: DateTime.now(),
           firstDate: DateTime(1950),
           lastDate: DateTime.now());
-      controller.text=pickedDate.toString();
-      //      .then((pickedDate) {
-      //   if (pickedDate == null) {
-      //     //if user tap cancel then this function will stop
-      //     return DateTime.now();
-      //   }
-      //   return pickedDate;
-      // });
+      var date = "${pickedDate!.day}-${pickedDate!.month}-${pickedDate!.year}";
+      controller.text = date.toString();
     }
     return Padding(
       padding: const EdgeInsets.all(12.0),
@@ -33,7 +27,6 @@ class DatePicker extends StatelessWidget {
               decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter Date",
-
                 //label text of field
               ),
               readOnly: true,

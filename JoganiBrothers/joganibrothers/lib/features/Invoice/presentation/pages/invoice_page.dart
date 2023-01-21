@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,24 +17,21 @@ class InvoicePage extends StatelessWidget {
 
 
    savePdf()async {
-     final file = File('$generatedPdfFilePath/jogani.pdf');
+     Directory? appDocDir = await getExternalStorageDirectory();
+     String appDocPath = appDocDir!.path;
+     final file = File(appDocPath + '/jogani.pdf');
      print('Save as file ${file.path} ...');
-     var bytes = await File('$generatedPdfFilePath/jogani.pdf').readAsBytes();
+     var bytes = await File('$generatedPdfFilePath').readAsBytes();
      await file.writeAsBytes(bytes);
      if (kDebugMode) {
        print('$file');
      }
      return file;
-     // final url = file.path;
-     //
-     // await OpenFile.open(url);
    }
 
    // Future<bool> saveFile(String url, String fileName) async {
    //   try {
-   //     final Permission _permission;
-   //     if (await _requestPermission(Permission.storage)) {
-   //       Directory? directory;
+   //      Directory? directory;
    //       directory = await getExternalStorageDirectory();
    //       String newPath = "";
    //       List<String> paths = directory!.path.split("/");
@@ -55,7 +50,7 @@ class InvoicePage extends StatelessWidget {
    //       if (kDebugMode) {
    //         print(saveFile.path);
    //       }
-   //     }
+   //
    //     return true;
    //   } catch (e) {
    //     return false;
@@ -70,7 +65,7 @@ class InvoicePage extends StatelessWidget {
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark
         ),
-        title: Text("Document"),
+        title: const Text("Document"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.print),
