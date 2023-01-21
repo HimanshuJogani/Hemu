@@ -28,9 +28,9 @@ class _SplashPageState extends State<SplashPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(ImagePath.splashImg),
+          Image.asset(ImagePath.splashImg,height: 300,),
           const Divider(),
-          Text('Jogani Brothers',style: AppTextStyles.labelStyle.copyWith(fontSize: 42),)
+          Text('Jogani Brothers',style: AppTextStyles.labelStyle.copyWith(fontSize: 40),)
         ],
       ),
     );

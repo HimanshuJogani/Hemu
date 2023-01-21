@@ -12,7 +12,7 @@ class Items extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: JoganiBrothersColors.color90gray.withOpacity(0.4),
+      color: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
       //   decoration: const BoxDecoration(
       //         gradient: LinearGradient(
       //           begin: Alignment.topLeft,
@@ -31,8 +31,9 @@ class Items extends StatelessWidget {
       //   ),
         child: Center(
             child: Text(
-              title,style:
-            AppTextStyles.unselectedLabelStyle,
+              title,
+              style:
+            AppTextStyles.labelStyle2.copyWith(fontSize: 20),
             )
         )
     );

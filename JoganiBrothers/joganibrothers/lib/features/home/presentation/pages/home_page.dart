@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           decoration:  BoxDecoration(
             image: DecorationImage(
-                colorFilter: ColorFilter.mode(JoganiBrothersColors.colorWhite.withOpacity(0.5),BlendMode.dstATop),
+                colorFilter: ColorFilter.mode(JoganiBrothersColors.colorWhite.withOpacity(0.7),BlendMode.dstATop),
                 image: const AssetImage(ImagePath.wheatBg),
                 fit: BoxFit.cover//BoxShadow
              ),

@@ -10,6 +10,7 @@ import 'package:joganibrothers/features/bill/presentation/cubit/bill_state.dart'
 import 'package:joganibrothers/utils/comman/comman_date_picker.dart';
 import 'package:joganibrothers/utils/constant/image_path.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../../../core/theme/jogani_brothers_color.dart';
 import '../../../../utils/comman/comman_textfield.dart';
 import '../../../products/data/models/product_model.dart';
 
@@ -529,8 +530,13 @@ class BillPage extends StatelessWidget {
                             itemCount: productList.length,
                             itemBuilder: (_, int index) {
                               return Card(
+                                  shape: RoundedRectangleBorder( //<-- SEE HERE
+                                    side: BorderSide(
+                                      color: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
+                                    ),
+                                  ),
                                   elevation: 10,
-                                  shadowColor: Colors.black,
+                                  shadowColor: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
                                   child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Row(
@@ -620,7 +626,7 @@ class BillPage extends StatelessWidget {
                 await Navigator.pushNamed(context, RoutesName.products);
             context.read<BillCubit>().check(res['product']);
           },
-          backgroundColor: Colors.blue,
+          backgroundColor: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
           child: const Icon(Icons.add),
         ),
       ),
