@@ -58,9 +58,12 @@ class InvoicePage extends StatelessWidget {
     return BlocConsumer<InvoiceCubit, InvoiceState>(
       listener: (context, state) {
         if(state is InvoiceLoading){
-          LoadingWidget();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) =>LoadingWidget());
         }
         if(state is InvoiceSuccess){
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },

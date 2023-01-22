@@ -6,6 +6,7 @@ class DatePicker extends StatelessWidget {
   DateTime? pickedDate;
   @override
   Widget build(BuildContext context) {
+
     void _pickDateDialog() async{
       pickedDate = await showDatePicker(
           context: context,
@@ -22,13 +23,18 @@ class DatePicker extends StatelessWidget {
         children: [
           const Text('Date'),
           const SizedBox(height: 5,),
-          TextField(
+        TextFormField(
               controller: controller,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter Date",
                 //label text of field
               ),
+              validator: (val) {
+                if (val!.isEmpty || val== null) {
+                  return 'Date Field is Empty';
+                }
+              },
               readOnly: true,
               onTap: () async {
                 _pickDateDialog();

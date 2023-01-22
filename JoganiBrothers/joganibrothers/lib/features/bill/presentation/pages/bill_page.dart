@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:joganibrothers/core/navigation/route_info.dart';
 import 'package:joganibrothers/core/theme/text_styles.dart';
+import 'package:joganibrothers/features/Invoice/presentation/cubit/invoice_cubit.dart';
 import 'package:joganibrothers/features/Invoice/presentation/pages/invoice_page.dart';
 import 'package:joganibrothers/features/bill/presentation/cubit/bill_cubit.dart';
 import 'package:joganibrothers/features/bill/presentation/cubit/bill_state.dart';
@@ -607,9 +608,12 @@ class BillPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) =>
-                                      InvoicePage(
+                                      BlocProvider(
+                                      create: (context) => InvoiceCubit(),
+                                      child: InvoicePage(
                                         generatedPdfFilePath: generatedPdfFilePath ??
-                                            "",)),
+                                            "",),
+                                      )),
                                 );
                               }
                             }
