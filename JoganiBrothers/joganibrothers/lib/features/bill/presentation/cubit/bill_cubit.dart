@@ -35,4 +35,5 @@ class BillCubit extends Cubit<BillState> {
      emit(CheckState(val:value));
   }
 
+
 }
