@@ -9,6 +9,7 @@ class AddProductPage extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController brandNameController = TextEditingController();
+  final TextEditingController bagsController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController transportationController =
@@ -43,13 +44,25 @@ class AddProductPage extends StatelessWidget {
               },
               ),
               CommanTextField(
-                title: 'Weight',
-                hintTxt: 'Weight',
+                title: 'Number of Bags',
+                hintTxt: 'Number of Bags',
+                controller: bagsController,
+                textType: TextInputType.number,
+                callback: (String? val) {
+                  if(val == null || val!.isEmpty){
+                    return "Please Enter Number of Bags";
+                  }
+                  return null;
+                },
+              ),
+              CommanTextField(
+                title: 'Bag Weight in Kg',
+                hintTxt: 'Bag Weight in Kg',
                 controller: weightController,
                 textType: TextInputType.number,
                 callback: (String? val) {
                   if(val == null || val!.isEmpty){
-                    return "Please Enter Weight";
+                    return "Please Enter Bag Weight in Kg";
                   }
                   return null;
                 },
@@ -108,6 +121,7 @@ class AddProductPage extends StatelessWidget {
                 onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _product.brandname = brandNameController.text;
+                  _product.bags = int.parse(bagsController.text);
                   _product.cgst = int.parse(
                       cgstController.text.length == 0 ? '0' : cgstController
                           .text);

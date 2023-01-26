@@ -31,26 +31,32 @@ class BillPage extends StatelessWidget {
     const targetFileName = "Jogani-pdf";
     num grandTotal = 0;
 
+
     String column = '';
     for(int i =0;i<productList.length;i++){
-      double total = (productList[i].price! * productList[i].weight!.toDouble()) / 20;
+      double totalWeight = (productList[i].bags! * productList[i].weight!.toDouble());
+      num minusTranp = productList[i].price! - productList[i].transportation!;
+      double total =  ((totalWeight * minusTranp)/100);
       grandTotal += total;
       column = '''$column          <div class="row">
     <div class="col col_no">
-    <p>01</p>
+    <p>${i+1}</p>
     </div>
     <div class="col col_des">
     <p class="bold">${productList[i].brandname}</p>
-    <p>Lorem ipsum dolor sit.</p>
+    <p>Best Quality Product.</p>
+    </div>
+    <div class="col col_qty">
+    <p>$totalWeight</p>
     </div>
     <div class="col col_price">
     <p>${productList[i].price}</p>
     </div>
-    <div class="col col_qty">
-    <p>${productList[i].weight}</p>
+    <div class="col col_tranp">
+    <p>-${productList[i].transportation}</p>
     </div>
     <div class="col col_total">
-    <p>${total}</p>
+    <p>$total</p>
     </div>
     </div>''';
     }
@@ -203,13 +209,18 @@ class BillPage extends StatelessWidget {
         width: 45%
       }
 
+      .invoice_wrapper .body .main_table .row .col_qty {
+        width: 10%;
+        text-align: center
+      }
+      
       .invoice_wrapper .body .main_table .row .col_price {
         width: 20%;
         text-align: center
       }
-
-      .invoice_wrapper .body .main_table .row .col_qty {
-        width: 10%;
+      
+      .invoice_wrapper .body .main_table .row .col_tranp {
+        width: 20%;
         text-align: center
       }
 
@@ -327,11 +338,11 @@ class BillPage extends StatelessWidget {
             </div>
           </div>
           <div class="logo_sec">
-            <img src="${ImagePath.splashImg}" alt="code logo" width="20" height="20">
+            <img src="${ImagePath.splashImgs}" alt="code logo" width="20" height="20">
             <div class="title_wrap">
               <p class="title bold">Jogani Brothers</p>
             </div>
-            <img src="${ImagePath.splashImg}" alt="code logo" width="20" height="20">
+            <img src="${ImagePath.splashImgs}" alt="code logo" width="20" height="20">
           </div>
           <div class="shop_address_info">
             <p>
@@ -386,8 +397,9 @@ class BillPage extends StatelessWidget {
               <div class="row">
                 <div class="col col_no">NO.</div>
                 <div class="col col_des">ITEM DESCRIPTION</div>
-                <div class="col col_price">PRICE</div>
                 <div class="col col_qty">WEIGHT</div>
+                <div class="col col_price">PRICE</div>
+                <div class="col col_tranp">TRANSPORT</div>
                 <div class="col col_total">TOTAL</div>
               </div>
             </div>
@@ -403,19 +415,19 @@ class BillPage extends StatelessWidget {
             <div class="grandtotal_sec">
               <p class="bold">
                 <span>SUB TOTAL</span>
-                <span>${grandTotal}</span>
+                <span>${grandTotal.toStringAsFixed(2)}</span>
               </p>
               <p>
-                <span>Tax Vat 18%</span>
-                <span>200</span>
+                <span>CGST</span>
+                <span>00</span>
               </p>
               <p>
-                <span>Transportation</span>
-                <span>-700</span>
+                <span>SGST</span>
+                <span>00</span>
               </p>
               <p class="bold">
                 <span>Grand Total</span>
-                <span>${grandTotal}</span>
+                <span>${grandTotal.toStringAsFixed(2)}</span>
               </p>
             </div>
           </div>
@@ -450,7 +462,6 @@ class BillPage extends StatelessWidget {
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
         htmlContent, targetPath, targetFileName);
     generatedPdfFilePath = generatedPdfFile.path;
-    //await OpenFile.open(file.path);
   }
 
   @override
@@ -586,7 +597,7 @@ class BillPage extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                          const Text('weight:',
+                                          const Text('Bag Weight:',
                                               style: TextStyle(fontSize: 10)),
                                           const SizedBox(),
                                           Text('${productList[index].weight}',
@@ -604,7 +615,7 @@ class BillPage extends StatelessWidget {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await generateDocument();
-                              if(generatedPdfFilePath!.isNotEmpty) {
+                              if(generatedPdfFilePath!.isNotEmpty && productList.isNotEmpty)  {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) =>
@@ -615,6 +626,12 @@ class BillPage extends StatelessWidget {
                                             "",),
                                       )),
                                 );
+                              } else {
+                                 var snackBar = SnackBar(
+                                  content: const Text('Please Add the Product!!!'),
+                                    backgroundColor: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             }
                           },

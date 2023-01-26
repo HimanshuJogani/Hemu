@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:joganibrothers/core/navigation/route_info.dart';
 import 'package:joganibrothers/core/theme/jogani_brothers_color.dart';
 import 'package:joganibrothers/features/bill/presentation/cubit/bill_cubit.dart';
 import 'package:joganibrothers/features/bill/presentation/pages/bill_page.dart';
 import 'package:joganibrothers/features/home/presentation/widgets/home_widget.dart';
 import 'package:joganibrothers/features/transport_bill/presentation/pages/transport_bill_page.dart';
 import 'package:joganibrothers/utils/constant/image_path.dart';
+import '../../../Invoice/presentation/pages/loading_widget.dart';
 
 class HomePage extends StatelessWidget {
    HomePage({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProgressDialog.hideLoadingDialog(context);
     final List _routePage = [
       BlocProvider(
         create: (context) => BillCubit(),

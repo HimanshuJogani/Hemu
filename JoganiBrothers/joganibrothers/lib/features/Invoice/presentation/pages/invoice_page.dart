@@ -14,6 +14,9 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
+import '../../../../core/navigation/route_info.dart';
+import '../../../../core/theme/jogani_brothers_color.dart';
+
 
 class InvoicePage extends StatelessWidget {
   InvoicePage({Key? key, required this.generatedPdfFilePath}) : super(key: key);
@@ -22,49 +25,12 @@ class InvoicePage extends StatelessWidget {
   bool saveFile = false;
 
 
-  // Future<bool> saveFile(String url, String fileName) async {
-  //   try {
-  //      Directory? directory;
-  //       directory = await getExternalStorageDirectory();
-  //       String newPath = "";
-  //       List<String> paths = directory!.path.split("/");
-  //       for (int x = 1; x < paths.length; x++) {
-  //         String folder = paths[x];
-  //         if (folder != "Android") {
-  //           newPath += "/" + folder;
-  //         } else {
-  //           break;
-  //         }
-  //       }
-  //       newPath = newPath + "/PDF_Download";
-  //       directory = Directory(newPath);
-  //
-  //       File saveFile = File(directory.path + "/$fileName");
-  //       if (kDebugMode) {
-  //         print(saveFile.path);
-  //       }
-  //
-  //     return true;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    const snackBar = SnackBar(
-      content: Text('Bill PDF generated Successfully!!!'),
-    );
     return BlocConsumer<InvoiceCubit, InvoiceState>(
       listener: (context, state) {
         if(state is InvoiceLoading){
-          showDialog(
-              context: context,
-              builder: (BuildContext context) =>LoadingWidget());
-        }
-        if(state is InvoiceSuccess){
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+           ProgressDialog.showLoadingDialog(context);
         }
       },
       builder: (context, state) {
@@ -79,7 +45,7 @@ class InvoicePage extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.print),
                 onPressed: () {
-                  context.read<InvoiceCubit>().savePdf(generatedPdfFilePath);
+                  showAlertDialog(context,generatedPdfFilePath);
                 },
               ),
             ],
@@ -91,4 +57,43 @@ class InvoicePage extends StatelessWidget {
   }
 }
 
+showAlertDialog(BuildContext context, String name) {
+  var snackBar = SnackBar(
+    content: const Text('Bill PDF generated Successfully!!!'),
+    backgroundColor: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
+  );
+  // Create button
+  Widget okButton = ElevatedButton(
+    child: const Text("Yes"),
+    onPressed: () {
+      context.read<InvoiceCubit>().savePdf(name);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Navigator.pushNamedAndRemoveUntil(context, RoutesName.home,(Route<dynamic> route) => false);
+    },
+  );
 
+  Widget cancelButton = ElevatedButton(
+    child: const Text("No"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Save Pdf!"),
+    content: const Text("Are you sure you have save pdf?"),
+    actions: [
+      okButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

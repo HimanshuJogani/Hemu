@@ -41,7 +41,8 @@ Product productFromJson(String str) => Product.fromJson(json.decode(str));
 String productToJson(Product data) => json.encode(data.toJson());
 class Product {
   Product({
-      this.brandname, 
+      this.brandname,
+      this.bags,
       this.weight, 
       this.price, 
       this.transportation, 
@@ -50,6 +51,7 @@ class Product {
 
   Product.fromJson(dynamic json) {
     brandname = json['brandname'];
+    bags = json['bags'];
     weight = json['weight'];
     price = json['price'];
     transportation = json['transportation'];
@@ -57,18 +59,21 @@ class Product {
     sgst = json['sgst'];
   }
   String? brandname;
+  int? bags;
   int? weight;
   int? price;
   int? transportation;
   int? cgst;
   int? sgst;
 Product copyWith({  String? brandname,
+  int? bags,
   int? weight,
   int? price,
   int? transportation,
   int? cgst,
   int? sgst,
 }) => Product(  brandname: brandname ?? this.brandname,
+  bags: bags ?? this.bags,
   weight: weight ?? this.weight,
   price: price ?? this.price,
   transportation: transportation ?? this.transportation,
@@ -78,6 +83,7 @@ Product copyWith({  String? brandname,
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['brandname'] = brandname;
+    map['bags'] = bags;
     map['weight'] = weight;
     map['price'] = price;
     map['transportation'] = transportation;
