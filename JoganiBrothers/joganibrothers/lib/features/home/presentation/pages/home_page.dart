@@ -8,14 +8,34 @@ import 'package:joganibrothers/features/transport_bill/presentation/pages/transp
 import 'package:joganibrothers/utils/constant/image_path.dart';
 import '../../../Invoice/presentation/pages/loading_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
    HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
   final List<Widget> _homePage = <Widget>[
     const Items(title: 'Bill'),
     const Items(title: 'Transport Bill')
   ];
 
+  late Image image1;
+
+
+  @override
+  void initState() {
+    super.initState();
+    image1 = Image.asset(ImagePath.wheatBg);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(image1.image, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +55,7 @@ class HomePage extends StatelessWidget {
           decoration:  BoxDecoration(
             image: DecorationImage(
                 colorFilter: ColorFilter.mode(JoganiBrothersColors.colorWhite.withOpacity(0.7),BlendMode.dstATop),
-                image: const AssetImage(ImagePath.wheatBg),
+                image: image1.image,
                 fit: BoxFit.cover//BoxShadow
              ),
           ),

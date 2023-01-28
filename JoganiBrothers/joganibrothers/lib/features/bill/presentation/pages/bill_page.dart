@@ -348,11 +348,11 @@ class BillPage extends StatelessWidget {
             </div>
           </div>
           <div class="logo_sec">
-            <img src="${ImagePath.splashImgs}" alt="code logo" width="20" height="20">
+            <img src="${ImagePath.splashImg}" alt="code logo" width="20" height="20">
             <div class="title_wrap">
               <p class="title bold">Jogani Brothers</p>
             </div>
-            <img src="${ImagePath.splashImgs}" alt="code logo" width="20" height="20">
+            <img src="${ImagePath.splashImg}" alt="code logo" width="20" height="20">
           </div>
           <div class="shop_address_info">
             <p>
