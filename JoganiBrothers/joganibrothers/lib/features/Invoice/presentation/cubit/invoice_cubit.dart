@@ -14,7 +14,7 @@ class InvoiceCubit extends Cubit<InvoiceState> {
     String appDocPath = appDocDir!.path;
     final prefs = await SharedPreferences.getInstance();
     int? c = prefs.getInt('counter');
-    final file = File(appDocPath + '/bill_no:${c}.pdf');
+    final file = File(appDocPath + '/Bill_No:${c}.pdf');
     print('Save as file ${file.path} ...');
     var bytes = await File('$generatedPdfFilePath').readAsBytes();
     await file.writeAsBytes(bytes);

@@ -46,14 +46,19 @@ class BillPage extends StatelessWidget {
     <p class="bold">${productList[i].brandname}</p>
     <p>Best Quality Product.</p>
     </div>
+    <div class="col col_bag">
+    <p>${productList[i].bags}</p>
+    <p>${productList[i].weight}Kg</p>
+    </div>
     <div class="col col_qty">
     <p>$totalWeight</p>
     </div>
     <div class="col col_price">
     <p>${productList[i].price}</p>
+    <p>TP: -${productList[i].transportation}</p>
     </div>
-    <div class="col col_tranp">
-    <p>-${productList[i].transportation}</p>
+    <div class="col col_netPrice">
+    <p>${minusTranp.toStringAsFixed(2)}</p>
     </div>
     <div class="col col_total">
     <p>$total</p>
@@ -82,7 +87,7 @@ class BillPage extends StatelessWidget {
       }
 
       body {
-        background: var(--secondary);
+        background: var(--white);
         padding: 50px;
         color: var(--secondary);
         display: flex;
@@ -188,7 +193,7 @@ class BillPage extends StatelessWidget {
 
       .invoice_wrapper .body .main_table .table_header .row {
         color: var(--white);
-        font-size: 18px;
+        font-size: 15px;
         border-bottom: 0
       }
 
@@ -208,6 +213,11 @@ class BillPage extends StatelessWidget {
       .invoice_wrapper .body .main_table .row .col_des {
         width: 45%
       }
+      
+      .invoice_wrapper .body .main_table .row .col_bag {
+        width: 10%;
+        text-align: center
+      }
 
       .invoice_wrapper .body .main_table .row .col_qty {
         width: 10%;
@@ -219,7 +229,7 @@ class BillPage extends StatelessWidget {
         text-align: center
       }
       
-      .invoice_wrapper .body .main_table .row .col_tranp {
+      .invoice_wrapper .body .main_table .row .col_netPrice {
         width: 20%;
         text-align: center
       }
@@ -377,16 +387,11 @@ class BillPage extends StatelessWidget {
           <div class="bill_total_wrap">
             <div class="bill_sec">
               <p>
-                <span class="bold">Bill To:</span>
+                <span class="bold">Bill To: </span>
+                <samp>${nameController.text}</span>
                 <br \>
-                <span>${nameController.text}</span>
-              </p>
-            </div>
-            <div class="address">
-              <p>
-                <span class="bold">Address:</span>
-                <br \>
-                <samp>${villageController.text}</samp>
+                <span class="bold">Address: </span>
+                <span>${villageController.text}</span>
               </p>
             </div>
           </div>
@@ -396,10 +401,11 @@ class BillPage extends StatelessWidget {
             <div class="table_header">
               <div class="row">
                 <div class="col col_no">NO.</div>
-                <div class="col col_des">ITEM DESCRIPTION</div>
+                <div class="col col_des">DESCRIPTION</div>
+                <div class="col col_bag">BAGS</div>
                 <div class="col col_qty">WEIGHT</div>
                 <div class="col col_price">PRICE</div>
-                <div class="col col_tranp">TRANSPORT</div>
+                <div class="col col_netPrice">NET PRICE</div>
                 <div class="col col_total">TOTAL</div>
               </div>
             </div>
