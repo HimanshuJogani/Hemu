@@ -23,7 +23,7 @@ class Router {
         });
       case RoutesName.transportBill:
         return MaterialPageRoute(builder: (_) {
-          return const TransportBillPage();
+          return TransportBillPage();
         });
       case RoutesName.products:
         return MaterialPageRoute(builder: (_) {

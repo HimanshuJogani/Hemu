@@ -7,6 +7,7 @@ import 'package:joganibrothers/features/home/presentation/widgets/home_widget.da
 import 'package:joganibrothers/features/transport_bill/presentation/pages/transport_bill_page.dart';
 import 'package:joganibrothers/utils/constant/image_path.dart';
 import '../../../Invoice/presentation/pages/loading_widget.dart';
+import '../../../transport_bill/presentation/cubit/tp_bill_cubit.dart';
 
 class HomePage extends StatefulWidget {
    HomePage({Key? key}) : super(key: key);
@@ -45,7 +46,10 @@ class _HomePageState extends State<HomePage> {
         create: (context) => BillCubit(),
         child: BillPage(),
       ),
-      const TransportBillPage()
+      BlocProvider(
+        create: (context) => TransportBillCubit(),
+        child: TransportBillPage(),
+      )
     ];
     return SafeArea(
       child: Scaffold(

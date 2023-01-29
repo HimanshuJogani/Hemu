@@ -678,7 +678,12 @@ class BillPage extends StatelessWidget {
                 controller: _name,
                 keyboardType:TextInputType.number,
                 decoration: const InputDecoration(hintText: "Bill No"),
-                validator: (name) {},
+                validator: (name) {
+                  if(name == null || name.isEmpty){
+                    return "Please Enter Number";
+                  }
+                  return null;
+                },
               ),
             ),
             actions: [
