@@ -1,20 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
-import 'package:joganibrothers/features/transport_bill/presentation/cubit/tp_bill_cubit.dart';
-import 'package:joganibrothers/features/transport_bill/presentation/cubit/tp_bill_state.dart';
 import 'package:joganibrothers/features/transport_invoice/presentation/cubit/transport_invoice_cubit.dart';
 import 'package:joganibrothers/features/transport_invoice/presentation/pages/transport_invoice_page.dart';
 import 'package:path_provider/path_provider.dart';
-
-import '../../../../core/theme/jogani_brothers_color.dart';
-import '../../../../core/theme/text_styles.dart';
 import '../../../../utils/comman/comman_date_picker.dart';
 import '../../../../utils/comman/comman_textfield.dart';
 import '../../../../utils/comman/number_plate_validation.dart';
-import '../../../products/data/models/product_model.dart';
+
 
 class TransportBillPage extends StatelessWidget {
   TransportBillPage({Key? key}) : super(key: key);
@@ -30,7 +24,6 @@ class TransportBillPage extends StatelessWidget {
   final TextEditingController fullAddressController = TextEditingController();
   final TextEditingController driverNameController = TextEditingController();
   final TextEditingController licenseController = TextEditingController();
-  int count = 0;
   String? generatedPdfFilePath;
 
   Future<void> generateDocument() async {
@@ -340,29 +333,47 @@ body {
 				<div class="date">
 					<p>
 						<span class="bold">Date: </span>
-						<span> 08/Jan/2022</span>
+						<span> ${dateController.text}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Mrs :</span>
-						<span> Himanshu Dipakbhai Jogani</span>	
+						<span> ${nameController.text}</span>	
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Address: </span>
-						<samp> Jeshingpara street no: 5</samp>
+						<samp> ${addressController.text}</samp>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
-						<span class="bold">Vehicle Truck number GJ 14 AC 6832 in 250 Bags 26kg Recruitment net kilogram 123 According to city Amreli to city Surat has been dispatched.</span>
+						<span class="bold">Vehicle Truck number </span>
+						<span>  ${vehicleNumberController.text} </span>
+						<span class="bold"> in </span> 
+						<span> ${bagsController.text} </span>
+						<span class="bold"> Bags </span>
+						<span> 26kg </span>
+						<span class="bold"> Recruitment net kilogram </span>
+						<span> 123 </span>
+						<span class="bold"> According, to city </span>
+						<span> ${startPointController.text} </span>
+						<span class="bold"> to city </span>
+						<span> ${endPointController.text} </span>
+						<span class="bold"> has been dispatched.</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
-						<span class="bold">Its rent rate is set at 175, and after hearing the products, you will pay 35757 out of 456 of the total rent.</span>
+						<span class="bold">Its rent rate is set at </span> 
+						<span> 175, </span>
+						<span class="bold">  and after hearing the products, you will pay </span>
+						<span> 35757 </span>
+						<span class="bold">  of </span>
+						<span> 456 </span>
+						<span class="bold">  the total rent.</span>
 					</p>
 				</div>
 				<div class="bank_info">
@@ -375,30 +386,32 @@ body {
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Vehicle Owner Name: </span>
-						<span>Abcd ajds</span>
+						<span>${vehicleOwnerNameController.text}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Full Address: </span>
-						<span>Jeshingpara street no 5 Amreli</span>
+						<span>${fullAddressController.text}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Driver Name: </span>
-						<span>Abcd ajds</span>
+						<span>${driverNameController.text}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner" style="padding-bottom: 30px;">
 					<p>
 						<span class="bold">License Number: </span>
-						<span>Abcd ajds</span>
+						<span>${licenseController.text}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
-						<span class="bold">The above product is checked before being loaded into our truck, sealed, and tal patti-covered and packed. Surat village is to deliver these items to us safely, and we are in charge of any kind of road damage, loss, or other issues.</span>
+						<span class="bold">The above product is checked before being loaded into our truck, sealed, and tal patti-covered and packed.</span> 
+						<span> ${endPointController.text} </span>
+						<span class="bold">	village is to deliver these items to us safely, and we are in charge of any kind of road damage, loss, or other issues.</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
@@ -432,39 +445,11 @@ body {
       appBar: AppBar(
         title: const Text('Transport Bill'),
       ),
-      body: BlocBuilder<TransportBillCubit, TransportBillState>(
-        builder: (context, state) {
-          if (state is BillSuccess) {
-            count = state.val;
-          }
-          return SingleChildScrollView(
+      body: SingleChildScrollView(
               child: Form(
                   key: formKey,
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            const Text(
-                              'TP Bill No:',
-                              style: AppTextStyles.labelStyle,
-                            ),
-                            const SizedBox(width: 5),
-                            Text("$count", style: AppTextStyles.labelStyle),
-                            const Spacer(),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.edit_note,
-                              ),
-                              iconSize: 40,
-                              onPressed: () {
-                                _displayTextInputDialog(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
                       CommanTextField(
                         title: 'Name',
                         hintTxt: 'Name',
@@ -496,15 +481,15 @@ body {
                         controller: vehicleNumberController,
                         textType: TextInputType.text,
                         callback: (String? val) {
-                          //return UserInfoValidation.numberPlateValidation(val);
-                          return null;
+                          return UserInfoValidation.numberPlateValidation(val);
+                          //return null;
                         },
                       ),
                       CommanTextField(
                         title: 'Bags',
                         hintTxt: 'Bags',
                         controller: bagsController,
-                        textType: TextInputType.text,
+                        textType: TextInputType.number,
                         callback: (String? val) {
                           if (val == null || val.isEmpty) {
                             return "Please Enter Bags";
@@ -576,7 +561,7 @@ body {
                         title: 'License Number',
                         hintTxt: 'License Number',
                         controller: licenseController,
-                        textType: TextInputType.text,
+                        textType: TextInputType.number,
                         callback: (String? val) {
                           if (val == null || val.isEmpty) {
                             return "Please Enter License Number";
@@ -608,50 +593,10 @@ body {
                         child: const Text('Submit'),
                       ),
                     ],
-                  )));
-        },
+                  ))
       ),
     );
   }
 }
 
 
-Future<void> _displayTextInputDialog(BuildContext context) async {
-  final TextEditingController _name = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  return showDialog(
-      context: context,
-      builder: (context1) {
-        return AlertDialog(
-          title: const Text('Add custom bill no'),
-          content: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: _formKey,
-            child: TextFormField(
-              onChanged: (value) {},
-              controller: _name,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: "TP Bill No"),
-              validator: (name) {
-                if (name == null || name.isEmpty) {
-                  return "Please Enter Number";
-                }
-                return null;
-              },
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20)),
-              onPressed: () {
-                context.read<TransportBillCubit>().billSwitchToggle(
-                    int.parse(_name.text));
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        );
-      });
-}
