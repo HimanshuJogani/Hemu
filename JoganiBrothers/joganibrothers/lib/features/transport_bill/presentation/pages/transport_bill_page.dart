@@ -482,7 +482,6 @@ body {
                         textType: TextInputType.text,
                         callback: (String? val) {
                           return UserInfoValidation.numberPlateValidation(val);
-                          //return null;
                         },
                       ),
                       CommanTextField(
@@ -563,10 +562,7 @@ body {
                         controller: licenseController,
                         textType: TextInputType.number,
                         callback: (String? val) {
-                          if (val == null || val.isEmpty) {
-                            return "Please Enter License Number";
-                          }
-                          return null;
+                          return UserInfoValidation.drivingLicenceValidation(val);
                         },
                       ),
                       ElevatedButton(

@@ -11,4 +11,13 @@ class UserInfoValidation {
     return null;
   }
 
+  static String? drivingLicenceValidation(String? string) {
+    if (string == null || string.isEmpty || string.trim().isEmpty) {
+      return "Please Enter Driving Licence Number";
+    } else if (!string.isLicence()) {
+      return "Please Enter Valid Licence Number";
+    }
+    return null;
+  }
+
 }
