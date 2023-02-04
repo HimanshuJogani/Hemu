@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:joganibrothers/features/transport_invoice/presentation/cubit/transport_invoice_cubit.dart';
 import 'package:joganibrothers/features/transport_invoice/presentation/pages/transport_invoice_page.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../../utils/comman/comman_date_picker.dart';
 import '../../../../utils/comman/comman_textfield.dart';
@@ -18,6 +19,8 @@ class TransportBillPage extends StatelessWidget {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController vehicleNumberController = TextEditingController();
   final TextEditingController bagsController = TextEditingController();
+  final TextEditingController weightBagController = TextEditingController();
+  final TextEditingController rateController = TextEditingController();
   final TextEditingController startPointController = TextEditingController();
   final TextEditingController endPointController = TextEditingController();
   final TextEditingController vehicleOwnerNameController = TextEditingController();
@@ -26,11 +29,21 @@ class TransportBillPage extends StatelessWidget {
   final TextEditingController licenseController = TextEditingController();
   String? generatedPdfFilePath;
 
+  var maskFormatter = MaskTextInputFormatter(
+      mask: 'AA## ###########',
+  );
+
+  var vehicleMaskFormatter = MaskTextInputFormatter(
+      mask: 'AA ## AA ####',
+  );
+
   Future<void> generateDocument() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
-    const targetFileName = "TpJogani-pdf";
-
+    const targetFileName = "TP-Jogani";
+    double totalWeight = double.parse(bagsController.text) * double.parse(weightBagController.text);
+    double rate = int.parse(rateController.text) / 100;
+    double totalRent = totalWeight * rate;
 
     var htmlContent = """
 <!DOCTYPE html>
@@ -350,29 +363,27 @@ body {
 				</div>
 				<div class="vehicle_owner">
 					<p>
-						<span class="bold">Vehicle Truck number </span>
-						<span>  ${vehicleNumberController.text} </span>
-						<span class="bold"> in </span> 
-						<span> ${bagsController.text} </span>
-						<span class="bold"> Bags </span>
-						<span> 26kg </span>
-						<span class="bold"> Recruitment net kilogram </span>
-						<span> 123 </span>
-						<span class="bold"> According, to city </span>
+						<span> ${bagsController.text}</span>
+						<span class="bold"> Bags of </span>
+						<span> ${weightBagController.text}kg </span> 
+						<span class="bold"> each, totalling </span>
+						<span> $totalWeight </span>
+						<span class="bold"> net kg, have been transported from the city of </span>
 						<span> ${startPointController.text} </span>
-						<span class="bold"> to city </span>
+						<span class="bold"> to the city of </span>
 						<span> ${endPointController.text} </span>
-						<span class="bold"> has been dispatched.</span>
+						<span class="bold"> in truck number </span>
+						<span> ${vehicleNumberController.text.toUpperCase()}. </span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
 					<p>
 						<span class="bold">Its rent rate is set at </span> 
-						<span> 175, </span>
+						<span> ${rateController.text}, </span>
 						<span class="bold">  and after hearing the products, you will pay </span>
-						<span> 35757 </span>
+						<span> ${totalRent.toStringAsFixed(2)} </span>
 						<span class="bold">  of </span>
-						<span> 456 </span>
+						<span> ${totalRent.toStringAsFixed(2)} </span>
 						<span class="bold">  the total rent.</span>
 					</p>
 				</div>
@@ -404,7 +415,7 @@ body {
 				<div class="vehicle_owner" style="padding-bottom: 30px;">
 					<p>
 						<span class="bold">License Number: </span>
-						<span>${licenseController.text}</span>
+						<span>${licenseController.text.toUpperCase()}</span>
 					</p>
 				</div>
 				<div class="vehicle_owner">
@@ -475,15 +486,38 @@ body {
                         },
                       ),
                       DatePicker(controller: dateController),
-                      CommanTextField(
-                        title: 'Vehicle Number',
-                        hintTxt: 'Vehicle Number',
-                        controller: vehicleNumberController,
-                        textType: TextInputType.text,
-                        callback: (String? val) {
-                          return UserInfoValidation.numberPlateValidation(val);
-                        },
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Vehicle Number'),
+                            const SizedBox(height: 5),
+                            TextFormField (
+                              controller: vehicleNumberController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'GJ 14 AC 6832',
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (String? val) {
+                                return UserInfoValidation.numberPlateValidation(val);
+                              },
+                              maxLength: 13,
+                              inputFormatters: [vehicleMaskFormatter],
+                            ),
+                          ],
+                        ),
                       ),
+                      // CommanTextField(
+                      //   title: 'Vehicle Number',
+                      //   hintTxt: 'Vehicle Number',
+                      //   controller: vehicleNumberController,
+                      //   textType: TextInputType.text,
+                      //   callback: (String? val) {
+                      //     return UserInfoValidation.numberPlateValidation(val);
+                      //   },
+                      // ),
                       CommanTextField(
                         title: 'Bags',
                         hintTxt: 'Bags',
@@ -492,6 +526,18 @@ body {
                         callback: (String? val) {
                           if (val == null || val.isEmpty) {
                             return "Please Enter Bags";
+                          }
+                          return null;
+                        },
+                      ),
+                      CommanTextField(
+                        title: 'Weight',
+                        hintTxt: 'Weight',
+                        controller: weightBagController,
+                        textType: TextInputType.number,
+                        callback: (String? val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please Enter Weight";
                           }
                           return null;
                         },
@@ -516,6 +562,18 @@ body {
                         callback: (String? val) {
                           if (val == null || val.isEmpty) {
                             return "Please Enter End Point";
+                          }
+                          return null;
+                        },
+                      ),
+                      CommanTextField(
+                        title: 'Rate',
+                        hintTxt: 'Rate',
+                        controller: rateController,
+                        textType: TextInputType.number,
+                        callback: (String? val) {
+                          if (val == null || val.isEmpty) {
+                            return "Please Enter Rate";
                           }
                           return null;
                         },
@@ -556,14 +614,28 @@ body {
                           return null;
                         },
                       ),
-                      CommanTextField(
-                        title: 'License Number',
-                        hintTxt: 'License Number',
-                        controller: licenseController,
-                        textType: TextInputType.number,
-                        callback: (String? val) {
-                          return UserInfoValidation.drivingLicenceValidation(val);
-                        },
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Driver License Number'),
+                            const SizedBox(height: 5),
+                            TextFormField (
+                              controller: licenseController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'GJ14 20190002156',
+                              ),
+                              keyboardType: TextInputType.text,
+                              validator: (String? val) {
+                                return UserInfoValidation.drivingLicenceValidation(val);
+                              },
+                              maxLength: 16,
+                              inputFormatters: [maskFormatter],
+                            ),
+                          ],
+                        ),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(

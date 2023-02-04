@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../core/navigation/route_info.dart';
 import '../../../../core/theme/jogani_brothers_color.dart';
 import '../cubit/transport_invoice_cubit.dart';
@@ -19,6 +21,13 @@ class TransportInvoicePage extends StatelessWidget {
         title: const Text("Document"),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () async {
+              await Share.shareFiles([generatedPdfFilePath],text: 'TP_Jogani');
+            },
+          ),
+          const SizedBox(width: 5,),
+          IconButton(
             icon: const Icon(Icons.print),
             onPressed: () {
               showAlertDialog(context,generatedPdfFilePath);
@@ -33,7 +42,7 @@ class TransportInvoicePage extends StatelessWidget {
 
 showAlertDialog(BuildContext context, String name) {
   var snackBar = SnackBar(
-    content: const Text('Bill PDF generated Successfully!!!'),
+    content: const Text('Transport Bill PDF generated Successfully!!!'),
     backgroundColor: JoganiBrothersColors.customDarkBlue.withOpacity(0.8),
   );
   // Create button

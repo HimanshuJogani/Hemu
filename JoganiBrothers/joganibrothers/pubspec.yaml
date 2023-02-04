@@ -46,6 +46,9 @@ dependencies:
   printing: ^5.9.3
   pdf: ^3.8.4
   permission_handler: ^10.2.0
+  mask_text_input_formatter: ^2.4.0
+  share_plus: ^6.3.0
+  http: ^0.13.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

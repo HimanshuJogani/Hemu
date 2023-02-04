@@ -12,16 +12,14 @@ class TransportInvoiceCubit extends Cubit<TransportInvoiceState> {
     emit(InvoiceLoading());
     Directory? appDocDir = await getExternalStorageDirectory();
     String appDocPath = appDocDir!.path;
-    final prefs = await SharedPreferences.getInstance();
-    int? c = prefs.getInt('tpcounter');
-    final file = File(appDocPath + '/Tp_Bill_No:${c}.pdf');
+    final date = DateTime.now();
+    final current = "${date.day}-${date.month}-${date.year}";
+    final file = File(appDocPath + '/Tp_Bill_No:${current}.pdf');
     var bytes = await File('$generatedPdfFilePath').readAsBytes();
     await file.writeAsBytes(bytes);
     if (kDebugMode) {
       print('$file');
     }
-    c=(c ?? 0) + 1;
-    await prefs.setInt('tpcounter',c);
     emit(InvoiceSuccess());
   }
 

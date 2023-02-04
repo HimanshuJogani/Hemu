@@ -28,7 +28,7 @@ class BillPage extends StatelessWidget {
   Future<void> generateDocument() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
-    const targetFileName = "Jogani-pdf";
+    const targetFileName = "Jogani";
     num grandTotal = 0;
 
 
@@ -667,6 +667,7 @@ class BillPage extends StatelessWidget {
 
     return showDialog(
         context: context,
+        barrierDismissible: true,
         builder: (context1) {
           return AlertDialog(
             title: const Text('Add custom bill no'),
@@ -695,6 +696,14 @@ class BillPage extends StatelessWidget {
                   Navigator.of(context, rootNavigator: true).pop('_displayTextInputDialog');
                 },
                 child: const Text('Add'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
               ),
             ],
           );

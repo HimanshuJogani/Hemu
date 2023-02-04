@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef StringValue = String? Function(String? val);
 class CommanTextField extends StatelessWidget {
-  CommanTextField({Key? key, required this.controller,required this.title, required this.hintTxt, required this.textType,  required this.callback,}) : super(key: key);
+  const CommanTextField({Key? key,required this.controller,required this.title, required this.hintTxt, required this.textType,  required this.callback}) : super(key: key);
 
   final String title;
   final String hintTxt;

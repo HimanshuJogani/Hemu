@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3+4"
   crypto:
     dependency: transitive
     description:
@@ -150,7 +157,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -191,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  mask_text_input_formatter:
+    dependency: "direct main"
+    description:
+      name: mask_text_input_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.0"
   matcher:
     dependency: transitive
     description:
@@ -212,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  mime:
+    dependency: transitive
+    description:
+      name: mime
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   nested:
     dependency: transitive
     description:
@@ -380,6 +401,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  share_plus:
+    dependency: "direct main"
+    description:
+      name: share_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.3.0"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   shared_preferences:
     dependency: "direct main"
     description:

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joganibrothers/features/Invoice/presentation/cubit/invoice_cubit.dart';
 import 'package:joganibrothers/features/Invoice/presentation/cubit/invoice_state.dart';
 import 'package:joganibrothers/features/Invoice/presentation/pages/loading_widget.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../../../core/navigation/route_info.dart';
 import '../../../../core/theme/jogani_brothers_color.dart';
@@ -32,6 +33,13 @@ class InvoicePage extends StatelessWidget {
           appBar: AppBar(
             title: const Text("Document"),
             actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () async {
+                  await Share.shareFiles([generatedPdfFilePath],text: 'Jogani Brothers');
+                },
+              ),
+              const SizedBox(width: 5,),
               IconButton(
                 icon: const Icon(Icons.print),
                 onPressed: () {
